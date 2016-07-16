@@ -1,0 +1,4 @@
+* Mon Jul 04 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.0.0-0
+- First cut after being split off from the original simp-logstash module.
+- Provides a much cleaner abstraction between this and the upstream Logstash
+  material from Elastic.

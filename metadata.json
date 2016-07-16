@@ -1,0 +1,64 @@
+{
+  "name": "simp-simp_logstash",
+  "version": "2.0.0",
+  "author": "SIMP",
+  "summary": "SIMP module for integrating elastic/puppet-logstash",
+  "license": "Apache-2.0",
+  "source": "https://github.com/simp/pupmod-simp-simp_logstash",
+  "project_page": "https://github.com/simp/pupmod-simp-simp_logstash",
+  "issues_url": "https://simp-project.atlassian.net",
+  "tags": [
+    "simp",
+    "logstash"
+  ],
+  "dependencies": [
+    {
+      "name": "elasticsearch/logstash",
+      "version_requirement": ">= 0.6.4"
+    },
+    {
+      "name": "puppetlabs/java",
+      "version_requirement": ">= 1.2.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.1.0"
+    },
+    {
+      "name": "simp/iptables",
+      "version_requirement": ">= 4.1.0"
+    },
+    {
+      "name": "simp/simplib",
+      "version_requirement": ">= 1.2.3"
+    },
+    {
+      "name": "simp/stunnel",
+      "version_requirement": ">= 4.2.3"
+    },
+    {
+      "name": "simp/sysctl",
+      "version_requirement": ">= 4.2.0"
+    },
+    {
+      "name": "simp/tcpwrappers",
+      "version_requirement": ">= 4.1.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ]
+}
