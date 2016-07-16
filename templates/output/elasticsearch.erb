@@ -1,0 +1,77 @@
+output {
+  elasticsearch {
+<% unless @action.empty? -%>
+    action => "<%= @action %>"
+<% end -%>
+<% unless @codec.empty? -%>
+    codec => "<%= @codec %>"
+<% end -%>
+<% unless @doc_as_upsert.empty? -%>
+    doc_as_upsert => <%= @doc_as_upsert %>
+<% end -%>
+<% unless @document_id.empty? -%>
+    document_id => "<%= @document_id %>"
+<% end -%>
+<% unless @document_type.empty? -%>
+    document_type => "<%= @document_type %>"
+<% end -%>
+<% unless @flush_size.empty? -%>
+    flush_size => <%= @flush_size %>
+<% end -%>
+    hosts => [ "<%= @_host %>:<%= @_port %>" ]
+<% unless @idle_flush_time.empty? -%>
+    idle_flush_time => <%= @idle_flush_time %>
+<% end -%>
+<% unless @index.empty? -%>
+    index => "<%= @index %>"
+<% end -%>
+<% unless @manage_template.empty? -%>
+    manage_template => <%= @manage_template %>
+<% end -%>
+<% unless @parent.empty? -%>
+    parent => "<%= @parent %>"
+<% end -%>
+<% unless @path.empty? -%>
+    path => "<%= @path %>"
+<% end -%>
+<% unless @retry_max_interval.empty? -%>
+    retry_max_interval => <%= @retry_max_interval %>
+<% end -%>
+<% unless @routing.empty? -%>
+    routing => "<%= @routing %>"
+<% end -%>
+<% unless @script.empty? -%>
+    script => "<%= @script %>"
+<% end -%>
+<% unless @script_lang.empty? -%>
+    script_lang => "<%= @script_lang %>"
+<% end -%>
+<% unless @script_type.empty? -%>
+    script_type => "<%= @script_type %>"
+<% end -%>
+<% unless @script_var_name.empty? -%>
+    script_var_name => "<%= @script_var_name %>"
+<% end -%>
+<% unless @scripted_upsert.empty? -%>
+    scripted_upsert => <%= @scripted_upsert %>
+<% end -%>
+<% unless @template.empty? -%>
+    template => "<%= @template %>"
+<% end -%>
+<% unless @template_name.empty? -%>
+    template_name => "<%= @template_name %>"
+<% end -%>
+<% unless @template_overwrite.empty? -%>
+    template_overwrite => <%= @template_overwrite %>
+<% end -%>
+<% unless @timeout.empty? -%>
+    timeout => <%= @timeout %>
+<% end -%>
+<% unless @upsert.empty? -%>
+    upsert => "<%= @upsert %>"
+<% end -%>
+<% unless @workers.empty? -%>
+    workers => <%= @workers %>
+<% end -%>
+  }
+}

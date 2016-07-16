@@ -1,0 +1,13 @@
+# Drop all Requires, Obsoletes, and Provides statements in here
+
+Provides: pupmod-simp-logstash
+Requires: pupmod-elasticsearch-logstash >= 0.6.4
+Requires: pupmod-puppetlabs-java >= 1.2.0
+Requires: pupmod-puppetlabs-stdlib
+Requires: pupmod-simp-iptables >= 4.1.0
+Requires: pupmod-simp-simplib >= 1.2.3
+Requires: pupmod-simp-stunnel >= 4.2.3
+Requires: pupmod-simp-sysctl >= 4.2.0
+Requires: pupmod-simp-tcpwrappers >= 4.1.0
+Requires: puppet >= 3.3.0
+Obsoletes: pupmod-simp-logstash < 2.0.0

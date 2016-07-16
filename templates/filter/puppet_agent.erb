@@ -1,0 +1,10 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
+filter {
+  if [program] == "puppet-agent"  and [message] =~ "^Finished" {
+    grok {
+      match => ["message", "Finished catalog run in %{NUMBER:puppet_agent_runtime2} seconds"]
+    }
+  }
+}

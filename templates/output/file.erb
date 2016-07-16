@@ -1,0 +1,29 @@
+output {
+  file {
+    path => "<%= @path %>"
+<% unless @codec.empty? -%>
+    codec => "<%= @codec %>"
+<% end -%>
+<% unless @create_if_deleted.empty? -%>
+    create_if_deleted => <%= @create_if_deleted %>
+<% end -%>
+<% unless @dir_mode.empty? -%>
+    dir_mode => <%= @dir_mode %>
+<% end -%>
+<% unless @file_mode.empty? -%>
+    file_mode => <%= @file_mode %>
+<% end -%>
+<% unless @filename_failure.empty? -%>
+    filename_failure => <%= @filename_failure %>
+<% end -%>
+<% unless @flush_interval.empty? -%>
+    flush_interval => <%= @flush_interval %>
+<% end -%>
+<% unless @gzip.empty? -%>
+    gzip => <%= @gzip %>
+<% end -%>
+<% unless @workers.empty? -%>
+    workers => <%= @workers %>
+<% end -%>
+  }
+}

@@ -1,0 +1,18 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
+filter {
+  if [program] == "slapd_audit" {
+    multiline {
+      pattern => "^#.end."
+      negate  => "true"
+      what    => "next"
+      stream_identity => "%{host}"
+    }
+    grok {
+      match => ["message", "changetype: %{WORD:ldap_changetype}"]
+      # LDAP Modfies happen often so we should figure out what changed.
+      match => ["message", "(delete|replace): %{WORD:ldap_modify}"]
+    }
+  }
+}

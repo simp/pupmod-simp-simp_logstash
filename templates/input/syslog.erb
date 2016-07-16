@@ -1,0 +1,37 @@
+input {
+  syslog {
+<% unless @add_field.empty? -%>
+    add_field => {
+    <%=
+      @add_field.keys.map do |k|
+        k = %("#{k}" => "#{@add_field[k]}")
+      end.join("\n      ")
+    %>
+    }
+<% end -%>
+<% unless @codec.empty? -%>
+    codec => <%= @codec %>
+<% end -%>
+<% unless @facility_labels.empty? -%>
+    facility_labels => [ "<%= @facility_labels.join('", "') %>" ]
+<% end -%>
+    host => "<%= @host %>"
+<% unless @locale.empty? -%>
+    locale => "<%= @locale %>"
+<% end -%>
+    port => <%= @daemon_port %>
+<% unless @severity_labels.empty? -%>
+    severity_labels => [ "<%= @severity_labels.join('", "') %>" ]
+<% end -%>
+<% unless @lstash_tags.empty? -%>
+    tags => [ "<%= @lstash_tags.join('", "') %>" ]
+<% end -%>
+<% unless @timezone.empty? -%>
+    timezone => "<%= @timezone %>"
+<% end -%>
+<% unless @lstash_type.empty? -%>
+    type => "<%= @lstash_type %>"
+<% end -%>
+    use_labels => <%= @use_labels %>
+  }
+}

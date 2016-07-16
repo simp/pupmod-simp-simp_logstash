@@ -1,0 +1,10 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
+filter {
+  if [program] == "puppetserver" and [message] =~ "^Compiled" {
+    grok {
+      match => ["message", "Compiled catalog for %{HOSTNAME:hostname} in environment production in %{NUMBER:puppet_master_compile_time} seconds"]
+    }
+  }
+}

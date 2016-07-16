@@ -1,0 +1,11 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
+filter {
+  if [program] == "sudosh" {
+    grok {
+      match => ["message", "\[%{NUMBER:sudosh_session_id}\]:"]
+      match => ["message", "starting session for %{USER:user} as root, session id %{NUMBER:sudosh_session_id}"]
+    }
+  }
+}

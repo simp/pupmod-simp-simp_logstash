@@ -1,0 +1,11 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
+filter {
+  if [program] == "sshd" {
+    grok {
+      match => ["message", "%{WORD:ssh_status} %{WORD:ssh_auth_type} for %{USER:user} from %{IP:src_ip} port %{NUMBER:src_port} %{WORD:src_protocol}"]
+      match => ["message", "Invalid user %{USER:user} from %{IP:src_ip}"]
+    }
+  }
+}
