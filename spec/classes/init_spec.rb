@@ -45,6 +45,11 @@ describe 'simp_logstash' do
 =end
 
         it { is_expected.to create_simp_logstash__filter('sshd') }
+        it { is_expected.to create_simp_logstash__filter('yum') }
+        it { is_expected.to create_simp_logstash__filter('httpd') }
+        it { is_expected.to create_simp_logstash__filter('puppet_agent') }
+        it { is_expected.to create_simp_logstash__filter('puppet_server') }
+        it { is_expected.to create_simp_logstash__filter('slapd_audit') }
         it { is_expected.to create_simp_logstash__output('elasticsearch') }
       end
     end
