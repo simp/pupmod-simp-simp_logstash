@@ -4,7 +4,7 @@
 filter {
   if [program] == "sudosh" {
     grok {
-      match => ["message", "\[%{NUMBER:sudosh_session_id}\]:"]
+      match => ["message", "\[%{WORD:sudosh_session_id}\]: %{WORD:sudosh_type}: %{USER:user}:%{WORD}: %{GREEDYDATA:sudosh_message}"]
       match => ["message", "starting session for %{USER:user} as root, session id %{NUMBER:sudosh_session_id}"]
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_logstash",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "SIMP",
   "summary": "SIMP module for integrating elastic/puppet-logstash",
   "license": "Apache-2.0",

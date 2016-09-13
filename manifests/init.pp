@@ -45,7 +45,9 @@ class simp_logstash (
     'puppet_server',
     'slapd_audit',
     'sshd',
-    'sudosh'
+    'sudosh',
+    'httpd',
+    'yum'
   ],
   $outputs = [
     'elasticsearch'
