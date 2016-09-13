@@ -10,9 +10,9 @@ filter {
       stream_identity => "%{host}"
     }
     grok {
-      match => ["message", "changetype: %{WORD:ldap_changetype}"]
+      match => {"message" => "changetype: %{WORD:ldap_changetype}"}
       # LDAP Modfies happen often so we should figure out what changed.
-      match => ["message", "(delete|replace): %{WORD:ldap_modify}"]
+      match => {"message" => "(delete|replace): %{WORD:ldap_modify}"}
     }
   }
 }

@@ -1,0 +1,7 @@
+filter {
+  if [program] == "yum" {
+    grok {
+      match => {"message" => "%{WORD:yum_action}: %{GREEDYDATA:package}"}
+    }
+  }
+}
