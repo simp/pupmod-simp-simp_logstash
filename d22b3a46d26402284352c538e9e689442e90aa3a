@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_fedd9341",
+        "filename": "templates/filter/httpd.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1008746
+      },
+      "writtenOn": "2016-10-07T18:35:39Z",
+      "side": 1,
+      "message": "Is this old syntax?  According to the grok documentation, the value type for match should be a Hash not an Array.  Per that documentation, if this is intended to be a match matching possible patterns, it should be written as:\ngrok {\n  match \u003d\u003e {\n    message \u003d\u003e [ \"pattern1\", \"pattern2\" ]\n  }\n}",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_dedbefeb",
+        "filename": "templates/filter/puppet_agent.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1008746
+      },
+      "writtenOn": "2016-10-07T18:35:39Z",
+      "side": 1,
+      "message": "As noted earlier, should each match in this file be match \u003d\u003e { \u0027message\u0027 \u003d\u003e pattern }",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_fed113cd",
+        "filename": "templates/filter/puppet_agent.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1008746
+      },
+      "writtenOn": "2016-10-07T18:35:39Z",
+      "side": 1,
+      "message": "Bear with me in my Puppet ignorance. For the following syslog messages, I think this will pull out \u0027audit\u0027?\n\n...puppet-agent[19506]: (/Stage[main]/Auditd::Config::Grub/Kernel_parameter[audit]/ensure) created\n...puppet-agent[19506]: (/Stage[main]/Auditd::Config::Grub/Kernel_parameter[audit]) Scheduling refresh of Reboot_notify[audit]\n...puppet-agent[19506]: (/Stage[main]/Auditd::Config::Grub/Reboot_notify[audit]) Triggered \u0027refresh\u0027 from 1 events\n\nIs this a unique puppet resource?",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_7ede23db",
+        "filename": "templates/filter/sshd.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1008746
+      },
+      "writtenOn": "2016-10-07T18:35:39Z",
+      "side": 1,
+      "message": "See previous comment about multi-match format",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_de89afcb",
+        "filename": "templates/filter/sudosh.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1008746
+      },
+      "writtenOn": "2016-10-07T18:35:39Z",
+      "side": 1,
+      "message": "See previous comment about multi-match format",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_be86ebb6",
+        "filename": "templates/filter/sudosh.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1008746
+      },
+      "writtenOn": "2016-10-07T18:35:39Z",
+      "side": 1,
+      "message": "sudosh_message could be quite long.  Is there any constraint on how large this field can be?",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_9e8fa7cc",
+        "filename": "templates/filter/yum.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1008746
+      },
+      "writtenOn": "2016-10-07T18:35:39Z",
+      "side": 1,
+      "message": "See previous comment on format of grok match",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
