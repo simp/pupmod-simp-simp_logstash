@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_d341a03a",
+        "filename": "templates/filter/httpd.erb",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1007363
+      },
+      "writtenOn": "2016-10-10T19:16:38Z",
+      "side": 1,
+      "message": "It was the old syntax.  Fixed this and all the others in patch set 4.",
+      "parentUuid": "baa041b7_fedd9341",
+      "revId": "d22b3a46d26402284352c538e9e689442e90aa3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_dedbefeb",
         "filename": "templates/filter/puppet_agent.erb",
         "patchSetId": 3
