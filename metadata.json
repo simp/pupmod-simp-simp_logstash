@@ -14,35 +14,35 @@
   "dependencies": [
     {
       "name": "elasticsearch/logstash",
-      "version_requirement": ">= 0.6.4"
+      "version_requirement": ">= 0.6.4 < 1.0.0"
     },
     {
       "name": "puppetlabs/java",
-      "version_requirement": ">= 1.2.0"
+      "version_requirement": ">= 1.2.0 < 2.0.0"
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.1.0"
+      "version_requirement": ">= 4.9.0 < 5.0.0"
     },
     {
       "name": "simp/iptables",
-      "version_requirement": ">= 4.1.0"
+      "version_requirement": ">= 4.1.4 < 5.0.0"
     },
     {
       "name": "simp/simplib",
-      "version_requirement": ">= 1.2.3"
+      "version_requirement": ">= 2.0.0 < 3.0.0"
     },
     {
       "name": "simp/stunnel",
-      "version_requirement": ">= 4.2.3"
+      "version_requirement": ">= 5.0.0 < 6.0.0"
     },
     {
       "name": "simp/sysctl",
-      "version_requirement": ">= 4.2.0"
+      "version_requirement": ">= 4.2.0 < 5.0.0"
     },
     {
       "name": "simp/tcpwrappers",
-      "version_requirement": ">= 4.1.0"
+      "version_requirement": ">= 5.0.0 < 6.0.0"
     }
   ],
   "operatingsystem_support": [
