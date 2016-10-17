@@ -30,11 +30,11 @@
     },
     {
       "name": "simp/simplib",
-      "version_requirement": ">= 1.2.3"
+      "version_requirement": ">= 2.0.0"
     },
     {
       "name": "simp/stunnel",
-      "version_requirement": ">= 4.2.3"
+      "version_requirement": ">= 5.0.0"
     },
     {
       "name": "simp/sysctl",
@@ -42,7 +42,7 @@
     },
     {
       "name": "simp/tcpwrappers",
-      "version_requirement": ">= 4.1.0"
+      "version_requirement": ">= 5.0.0"
     }
   ],
   "operatingsystem_support": [
