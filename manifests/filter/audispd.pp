@@ -41,4 +41,9 @@ class simp_logstash::filter::audispd (
     content => $_content,
     notify  => Class['logstash::service']
   }
+
+  # We need to add our audit pattern file
+  logstash::patternfile { 'audispd':
+    source => 'puppet:///modules/simp_logstash/audispd'
+  }
 }
