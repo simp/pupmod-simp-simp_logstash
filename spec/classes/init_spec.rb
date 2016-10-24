@@ -34,18 +34,9 @@ describe 'simp_logstash' do
           ).without_content(/=>\s*$/)
         }
 
-        it "creates file '/etc/logstash/conf.d/simp-logstash-20_filter-50-audispd.conf'"
-=begin
-# Re-enable this once the audispd filter is fixed
-        it {
-          is_expected.to create_file(
-            '/etc/logstash/conf.d/simp-logstash-20_filter-50-audispd.conf'
-          ).with_content(/filter {/)
-        }
-=end
-
         it { is_expected.to create_simp_logstash__filter('sshd') }
         it { is_expected.to create_simp_logstash__filter('yum') }
+        it { is_expected.to create_simp_logstash__filter('audispd') }
         it { is_expected.to create_simp_logstash__filter('httpd') }
         it { is_expected.to create_simp_logstash__filter('puppet_agent') }
         it { is_expected.to create_simp_logstash__filter('puppet_server') }

@@ -41,6 +41,7 @@ class simp_logstash (
     'syslog'
   ],
   $filters = [
+    'audispd',
     'puppet_agent',
     'puppet_server',
     'slapd_audit',
