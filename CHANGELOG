@@ -1,9 +1,14 @@
-* Tue Oct 25 2016 Ralph Wright <rwright@onyxpoint.com> - 2.0.2-0
+* Wed Nov 16 2016 Liz Nemsick <lnemsick.simp@gmail.com> - 2.0.1-0
+- Updated iptables dependency version
+
+* Tue Oct 25 2016 Ralph Wright <rwright@onyxpoint.com> - 2.0.1-0
 - Updated and enabled auditd logstash filters
 - Updated spec and acceptance tests
+
 * Fri Sep 23 2016 Ralph Wright <rwright@onyxpoint.com> - 2.0.1-0
 - Updated filters to make searching and visualization easier.
 - Updated grok syntax.
+
 * Mon Jul 04 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.0.0-0
 - First cut after being split off from the original simp-logstash module.
 - Provides a much cleaner abstraction between this and the upstream Logstash
