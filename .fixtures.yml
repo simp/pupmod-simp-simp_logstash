@@ -22,9 +22,6 @@ fixtures:
     augeasproviders_sysctl:
       repo: https://github.com/simp/augeasproviders_sysctl
       branch: simp-master
-    compliance_mapper:
-      repo: https://github.com/simp/pupmod-simp-compliance_markup
-      branch: master
     datacat:
       repo: https://github.com/simp/puppet-datacat
       branch: simp-master
