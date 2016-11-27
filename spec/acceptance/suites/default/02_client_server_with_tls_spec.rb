@@ -10,16 +10,15 @@ describe 'rsyslog client -> 1 server with TLS' do
     servers.each do |server|
       client_manifest = <<-EOS
           class { 'rsyslog':
-            log_server_list    => ['#{fact_on(server, 'fqdn')}'],
-            enable_logrotate   => true,
-            enable_tls_logging => true,
-            enable_pki         => true,
-            use_simp_pki       => false,
-            cert_source        => '/etc/pki/simp-testing/pki'
+            log_servers         => ['#{fact_on(server, 'fqdn')}'],
+            logrotate           => true,
+            enable_tls_logging  => true,
+            pki                 => false,
+            app_pki_dir         => '/etc/pki/simp-testing/pki'
           }
 
           rsyslog::rule::remote { 'send_the_logs':
-            rule => '*.*'
+            rule => 'prifilt(\\'*.*\\')'
           }
         EOS
 
@@ -34,7 +33,7 @@ describe 'rsyslog client -> 1 server with TLS' do
 
         it 'should successfully send log messages' do
           on client, 'logger -t FOO 02-TEST-WITH-TLS'
-          sleep(5)
+          sleep(15)
           remote_log = '/var/log/logstash/file_output.log'
           on server, "test -f #{remote_log}"
           on server, "grep 02-TEST-WITH-TLS #{remote_log}"

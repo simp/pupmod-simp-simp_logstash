@@ -14,13 +14,10 @@
 #
 # @copyright 2016 Onyx Point, Inc.
 class simp_logstash::filter::yum (
-  $order = '50',
-  $content = ''
+  Integer           $order   = 50,
+  Optional[String]  $content = undef
 ){
   include '::simp_logstash'
-
-  validate_integer($order)
-  validate_string($content)
 
   $_component_name = 'yum'
   $_group = 'filter'

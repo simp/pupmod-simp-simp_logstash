@@ -1,0 +1,19 @@
+#
+# Class: simp_logstash::config::pki
+#
+# Manages certs in $::simp_logstash::app_pki_dir.
+#
+# == Authors
+#
+# * Ralph Wright <rwright@onyxpoint.com>
+#
+class simp_logstash::config::pki (
+){
+  assert_private()
+  pki::copy { 'logstash':
+    source => $::simp_logstash::app_pki_external_source,
+    pki    => true,
+    owner  => $::logstash::logstash_user,
+    notify => Class['logstash::service']
+  }
+}

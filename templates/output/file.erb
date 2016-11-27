@@ -1,28 +1,28 @@
 output {
   file {
     path => "<%= @path %>"
-<% unless @codec.empty? -%>
+<% unless @codec.nil? -%>
     codec => "<%= @codec %>"
 <% end -%>
-<% unless @create_if_deleted.empty? -%>
+<% unless @create_if_deleted.nil? -%>
     create_if_deleted => <%= @create_if_deleted %>
 <% end -%>
-<% unless @dir_mode.empty? -%>
+<% unless @dir_mode.nil? -%>
     dir_mode => <%= @dir_mode %>
 <% end -%>
-<% unless @file_mode.empty? -%>
+<% unless @file_mode.nil? -%>
     file_mode => <%= @file_mode %>
 <% end -%>
-<% unless @filename_failure.empty? -%>
+<% unless @filename_failure.nil? -%>
     filename_failure => <%= @filename_failure %>
 <% end -%>
-<% unless @flush_interval.empty? -%>
+<% unless @flush_interval.nil? -%>
     flush_interval => <%= @flush_interval %>
 <% end -%>
-<% unless @gzip.empty? -%>
+<% unless @gzip.nil? -%>
     gzip => <%= @gzip %>
 <% end -%>
-<% unless @workers.empty? -%>
+<% unless @workers.nil? -%>
     workers => <%= @workers %>
 <% end -%>
   }

@@ -14,13 +14,10 @@
 #
 # @copyright 2016 Onyx Point, Inc.
 class simp_logstash::filter::slapd_audit (
-  $order = '50',
-  $content = ''
+  Integer           $order = 50,
+  Optional[String]  $content = undef
 ){
   include '::simp_logstash'
-
-  validate_integer($order)
-  validate_string($content)
 
   $_component_name = 'slapd_audit'
   $_group = 'filter'

@@ -12,14 +12,14 @@ describe 'rsyslog client -> 1 server without TLS' do
     servers.each do |server|
       client_manifest = <<-EOS
           class { 'rsyslog':
-            log_server_list    => ['#{fact_on(server, 'fqdn')}'],
-            enable_logrotate     => true,
+            log_servers    => ['#{fact_on(server, 'fqdn')}'],
+            logrotate     => true,
             enable_tls_logging => false,
-            enable_pki         => false,
+            pki         => false,
           }
 
           rsyslog::rule::remote { 'send_the_logs':
-            rule => '*.*'
+            rule => 'prifilt(\\'*.*\\')'
           }
         EOS
 

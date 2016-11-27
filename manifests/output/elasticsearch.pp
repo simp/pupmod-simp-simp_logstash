@@ -109,73 +109,37 @@
 #
 # @copyright 2016 Onyx Point, Inc.
 class simp_logstash::output::elasticsearch (
-  $action                = '',
-  $codec                 = '',
-  $doc_as_upsert         = '',
-  $document_id           = '',
-  $document_type         = '',
-  $flush_size            = '',
-  $host                  = 'localhost',
-  $port                  = '9199',
-  $idle_flush_time       = '',
-  $index                 = '',
-  $manage_template       = '',
-  $parent                = '',
-  $path                  = '',
-  $retry_max_interval    = '',
-  $routing               = '',
-  $script                = '',
-  $script_lang           = '',
-  $script_type           = '',
-  $script_var_name       = '',
-  $scripted_upsert       = '',
-  $template              = '',
-  $template_name         = '',
-  $template_overwrite    = '',
-  $timeout               = '',
-  $upsert                = '',
-  $workers               = '',
-  $order                 = '50',
-  $content               = '',
-  $stunnel_port          = '9200',
-  $stunnel_elasticsearch = true
+  Optional[Array[Enum['index','delete','create']]]  $action                = undef,
+  Optional[String]                                  $codec                 = undef,
+  Optional[Boolean]                                 $doc_as_upsert         = undef,
+  Optional[String]                                  $document_id           = undef,
+  Optional[String]                                  $document_type         = undef,
+  Optional[Integer[0]]                              $flush_size            = undef,
+  Simplib::Host                                     $host                  = 'localhost',
+  Simplib::Port                                     $port                  = 9199,
+  Optional[Integer[0]]                              $idle_flush_time       = undef,
+  Optional[String]                                  $index                 = undef,
+  Optional[Boolean]                                 $manage_template       = undef,
+  Optional[String]                                  $parent                = undef,
+  Optional[Stdlib::Absolutepath]                    $path                  = undef,
+  Optional[Integer[0]]                              $retry_max_interval    = undef,
+  Optional[String]                                  $routing               = undef,
+  Optional[String]                                  $script                = undef,
+  Optional[String]                                  $script_lang           = undef,
+  Optional[Array[Enum['inline','idexed','file']]]   $script_type           = undef,
+  Optional[String]                                  $script_var_name       = undef,
+  Optional[Boolean]                                 $scripted_upsert       = undef,
+  Optional[Stdlib::Absolutepath]                    $template              = undef,
+  Optional[String]                                  $template_name         = undef,
+  Optional[Boolean]                                 $template_overwrite    = undef,
+  Optional[Integer[0]]                              $timeout               = undef,
+  Optional[String]                                  $upsert                = undef,
+  Optional[Integer[0]]                              $workers               = undef,
+  Integer[0]                                        $order                 = 50,
+  Optional[String]                                  $content               = undef,
+  Simplib::Port                                     $stunnel_port          = 9200,
+  Boolean                                           $stunnel_elasticsearch = true
 ) {
-
-  if !empty($action) {
-    validate_string($action)
-    validate_array_member($action, ['index', 'delete', 'create', 'update'])
-  }
-  validate_string($codec)
-  if !empty($doc_as_upsert) { validate_bool($doc_as_upsert) }
-  validate_string($document_id)
-  validate_string($document_type)
-  if !empty($flush_size) { validate_integer($flush_size) }
-  validate_net_list($host)
-  validate_port($port)
-  if !empty($idle_flush_time) { validate_integer($idle_flush_time) }
-  validate_string($index)
-  if !empty($manage_template) { validate_bool($manage_template) }
-  validate_string($parent)
-  if !empty($path) { validate_absolute_path($path) }
-  if !empty($retry_max_interval) { validate_integer($retry_max_interval) }
-  validate_string($routing)
-  validate_string($script)
-  validate_string($script_lang)
-  if !empty($script_type) {
-    validate_string($script_type)
-    validate_array_member($script_type, ['inline', 'indexed', 'file'])
-  }
-  validate_string($script_var_name)
-  if !empty($scripted_upsert) { validate_bool($scripted_upsert) }
-  if !empty($template) { validate_absolute_path($template) }
-  validate_string($template_name)
-  if !empty($template_overwrite) { validate_bool($template_overwrite) }
-  if !empty($timeout) { validate_integer($timeout) }
-  validate_string($upsert)
-  if !empty($workers) { validate_integer($workers) }
-  validate_integer($order)
-  validate_string($content)
-  validate_bool($stunnel_elasticsearch)
 
   $_is_local = host_is_me($host)
 

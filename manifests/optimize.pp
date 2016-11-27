@@ -46,48 +46,33 @@
 #   the index cleanup.
 #
 class simp_logstash::optimize (
-  $ensure = 'present',
-  $host = '127.0.0.1',
-  $optimize_days = '2',
-  $optimize_hours = '',
-  $prefix = 'logstash-',
-  $port = '9199',
-  $separator = '.',
-  $es_timeout = '21600',
-  $max_num_segments = '2',
-  $log_file = '/var/log/logstash/curator_optimize.log',
-  $cron_hour = '3',
-  $cron_minute = '15',
-  $cron_month = '*',
-  $cron_monthday = '*',
-  $cron_weekday = '*'
+  Enum['present','absent']          $ensure           = 'present',
+  Simplib::Host                     $host             = '127.0.0.1',
+  Optional[Integer[0]]              $optimize_days    = '2',
+  Optional[Integer[0]]              $optimize_hours   = '',
+  String                            $prefix           = 'logstash-',
+  Simplib::Port                     $port             = '9199',
+  String                            $separator        = '.',
+  Integer[0]                        $es_timeout       = '21600',
+  Integer[0]                        $max_num_segments = '2',
+  Stdlib::Absolutepath              $log_file         = '/var/log/logstash/curator_optimize.log',
+  Variant[Enum['*'],Integer[0,23]]  $cron_hour        = '3',
+  Variant[Enum['*'],Integer[0,59]]  $cron_minute      = '15',
+  Variant[Enum['*'],Integer[1,12]]  $cron_month       = '*',
+  Variant[Enum['*'],Integer[1,31]]  $cron_monthday    = '*',
+  Variant[Enum['*'],Integer[0,7]]   $cron_weekday     = '*'
 ) {
 
-  validate_array_member($ensure, ['present','absent'])
-
   if defined('$::simp_logstash::auto_optimize') and getvar('::simp_logstash::auto_optimize') {
-    validate_net_list($host)
-    validate_port($port)
-    validate_string($separator)
-    validate_integer($es_timeout)
-    validate_integer($max_num_segments)
-    validate_absolute_path($log_file)
-    if ($cron_hour != '*') { validate_integer($cron_hour) }
-    if ($cron_minute != '*') { validate_integer($cron_minute) }
-    if ($cron_month != '*') { validate_integer($cron_month) }
-    if ($cron_monthday != '*') { validate_integer($cron_monthday) }
-    if ($cron_weekday != '*') { validate_integer($cron_weekday) }
 
     if size(reject([$optimize_days, $optimize_hours],'^\s*$')) > 1 {
       fail('You may only specify one of $optimize_days or $optimize_hours')
     }
 
     if !empty($optimize_hours) {
-      validate_integer($optimize_hours)
       $_limit = "-T hours --older-than ${optimize_hours}"
     }
     elsif !empty($optimize_days) {
-      validate_integer($optimize_days)
       $_limit = "-T days --older-than ${optimize_days}"
     }
     else {

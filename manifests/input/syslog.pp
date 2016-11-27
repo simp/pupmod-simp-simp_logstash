@@ -1,11 +1,8 @@
-# A Logstash input for Syslog messages
+# A Logstash input for unencrypted Syslog messages
 #
 # Though this class has a great deal repeated with the other input classes,
 # they remain separate in the event that variables need to be added in the
 # future for ERB processing.
-#
-# It allows you to encrypt traffic to the LogStash log collector just like the
-# SIMP rsyslog remote configuration.
 #
 # IPTables NAT rules are modified so that LogStash can run as a normal user
 # while collecting syslog traffic from other hosts.
@@ -25,26 +22,10 @@
 # @param codec [String] The codec used for input data.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
 #
-# @param facility_labels [Array] Labels for facility levels.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
-#
-# @param host [String] The address upon which to listen.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
-#
-# @param locale [String] The locale to use used for date parsing.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
-#
-# @param severity_labels [String] Labels for severity levels.
+# @param host [IP] The address upon which to listen.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
 #
 # @param lstash_tags [Array] Arbitrary tags for your events.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
-#
-# @param timezone [String] A time zone canonical ID to be used for date
-#  parsing.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
-#
-# @param use_labels [Boolean] Use label parsing for severity and facility levels.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
 #
 # @param order [Integer] The relative order within the configuration group. If
@@ -53,14 +34,14 @@
 # @param content [String] The content that you wish to have in your filter. If
 #   set, this will override *all* template contents.
 #
-# @param client_nets [Array(Net Address)] An array of networks that you trust
+# @param trusted_nets [Array(Net List)] An array of networks that you trust
 #   to connect to your server.
 #
 # @param listen_plain_tcp [Boolean] If set, listen on the default unencrypted
-#   TCP syslog port.
+#   TCP syslog port. Default is true.
 #
 # @param listen_plain_udp [Boolean] If set, listen on the default unencrypted
-#   UDP syslog port.
+#   UDP syslog port. Default is false.
 #
 # @param tcp_port [Port] The port upon which to listen for TCP syslog
 #   connections.
@@ -70,80 +51,36 @@
 #
 # @param daemon_port [Port] The port that logstash itself should listen on.
 #
-# @param stunnel_syslog_input [Boolean] Whether or not to set up a stunnel
-#   connection on port 5140 for allowing clients to send logs to the server
-#   over an encrypted channel. The usual 514 port will also listen for
-#   connections on both TCP and UDP for devices which simply do not support
-#   encrypted connections.
-#
 # @param manage_sysctl [Boolean] If set, this class will manage the following
 #   sysctl variables.
 #   * net.ipv4.conf.all.route_localhost
 #
-# @param simp_iptables [Boolean] If set, use IPTables rules to forward remote
+# @param firewall [Boolean] If set, use IPTables rules to forward remote
 #   connections to the logstash syslog listener. This prevents logstash itself
 #   from needing to run as the 'root' user.
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author Ralph Wright <rwright@onyxpoint.com>
 #
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_logstash::input::syslog (
-  $add_field            = {},
-  $codec                = '',
-  $facility_labels      = [],
-  $host                 = '127.0.0.1',
-  $locale               = '',
-  $severity_labels = [
-    'Emergency',
-    'Alert',
-    'Critical',
-    'Error',
-    'Warning',
-    'Notice',
-    'Informational',
-    'Debug'
-  ],
-  $lstash_tags          = '',
-  $timezone             = '',
-  $lstash_type          = '',
-  $use_labels           = true,
-  $order                = '50',
-  $content              = '',
-  $client_nets          = defined('$::client_nets') ? { true => getvar('::client_nets'), default => hiera('client_nets','127.0.0.1') },
-  $listen_plain_tcp     = false,
-  $listen_plain_udp     = false,
-  $tcp_port             = '514',
-  $udp_port             = '514',
-  $daemon_port          = '51400',
-  $stunnel_syslog_input = true,
-  $stunnel_syslog_port  = '6514',
-  $manage_sysctl        = true,
-  $simp_iptables        = defined('$::use_iptables') ? { true => getvar('::use_iptables'), default => hiera('use_iptables',true) }
+  Optional[Hash]          $add_field        = undef,
+  Optional[String]        $codec            = undef,
+  Optional[Simplib::IP]   $host             = '127.0.0.1',
+  Optional[Array[String]] $lstash_tags      = undef,
+  String                  $lstash_type      = 'simp_syslog',
+  Integer[0]              $order            = 50,
+  Optional[String]        $content          = undef,
+  Simplib::Netlist        $trusted_nets     = simplib::lookup('simp_options::trusted_nets', {'default_value' => ['127.0.0.1/32'] }),
+  Boolean                 $listen_plain_tcp = true,
+  Boolean                 $listen_plain_udp = false,
+  Simplib::Port           $tcp_port         = 514,
+  Simplib::Port           $udp_port         = 514,
+  Simplib::Port           $daemon_port      = 51400,
+  Boolean                 $manage_sysctl    = true,
+  Boolean                 $firewall         = simplib::lookup('simp_options::firewall', { 'default_value'    =>  true})
 ) {
-
-  validate_hash($add_field)
-  validate_string($codec)
-  validate_array($facility_labels)
-  validate_net_list($host)
-  validate_string($locale)
-  validate_array($severity_labels)
-  validate_string($lstash_tags)
-  validate_string($timezone)
-  validate_string($lstash_type)
-  validate_bool($use_labels)
-  validate_integer($order)
-  validate_string($content)
-  validate_net_list($client_nets)
-  validate_bool($listen_plain_tcp)
-  validate_bool($listen_plain_udp)
-  validate_port($udp_port)
-  validate_port($tcp_port)
-  validate_port($daemon_port)
-  validate_bool($stunnel_syslog_input)
-  validate_port($stunnel_syslog_port)
-  validate_bool($manage_sysctl)
-  validate_bool($simp_iptables)
 
   ### Common material to all inputs
   include '::simp_logstash'
@@ -169,7 +106,11 @@ class simp_logstash::input::syslog (
   }
   ### End common material
 
-  if $simp_iptables {
+  include 'simp_logstash::filter::simp_syslog'
+
+  if $firewall {
+    include '::iptables'
+
     if $listen_plain_tcp or $listen_plain_udp {
       if $listen_plain_tcp {
         # IPTables rules so that LogStash doesn't have to run as root.
@@ -205,35 +146,22 @@ class simp_logstash::input::syslog (
     }
 
     if $listen_plain_tcp {
-      iptables::add_tcp_stateful_listen { 'logstash_syslog_tcp':
-        client_nets => $client_nets,
-        dports      => $tcp_port
+      iptables::listen::tcp_stateful { 'logstash_syslog_tcp':
+        trusted_nets => $trusted_nets,
+        dports       => $tcp_port
       }
       iptables_rule { 'logstash_syslog_tcp_allow':
         content => "-d ${host} -p tcp -m tcp -m multiport --dports ${daemon_port} -j ACCEPT"
       }
     }
     if $listen_plain_udp {
-      iptables::add_udp_listen { 'logstash_syslog_udp':
-        client_nets => $client_nets,
-        dports      => $udp_port
+      iptables::listen::udp { 'logstash_syslog_udp':
+        trusted_nets => $trusted_nets,
+        dports       => $udp_port
       }
       iptables_rule { 'logstash_syslog_udp_allow':
         content => "-d ${host} -p udp -m udp -m multiport --dports ${daemon_port} -j ACCEPT"
       }
     }
-  }
-
-  if $stunnel_syslog_input {
-    include '::stunnel'
-    include '::tcpwrappers'
-
-    stunnel::add { 'logstash_syslog_tls':
-      client  => false,
-      connect => [$daemon_port],
-      accept  => $stunnel_syslog_port
-    }
-
-    tcpwrappers::allow { ['logstash_syslog','logstash_syslog_tls']: pattern => 'ALL' }
   }
 }

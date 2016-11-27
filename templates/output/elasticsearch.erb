@@ -1,76 +1,76 @@
 output {
   elasticsearch {
-<% unless @action.empty? -%>
+<% unless @action.nil? -%>
     action => "<%= @action %>"
 <% end -%>
-<% unless @codec.empty? -%>
+<% unless @codec.nil? -%>
     codec => "<%= @codec %>"
 <% end -%>
-<% unless @doc_as_upsert.empty? -%>
+<% unless @doc_as_upsert.nil? -%>
     doc_as_upsert => <%= @doc_as_upsert %>
 <% end -%>
-<% unless @document_id.empty? -%>
+<% unless @document_id.nil? -%>
     document_id => "<%= @document_id %>"
 <% end -%>
-<% unless @document_type.empty? -%>
+<% unless @document_type.nil? -%>
     document_type => "<%= @document_type %>"
 <% end -%>
-<% unless @flush_size.empty? -%>
+<% unless @flush_size.nil? -%>
     flush_size => <%= @flush_size %>
 <% end -%>
     hosts => [ "<%= @_host %>:<%= @_port %>" ]
-<% unless @idle_flush_time.empty? -%>
+<% unless @idle_flush_time.nil? -%>
     idle_flush_time => <%= @idle_flush_time %>
 <% end -%>
-<% unless @index.empty? -%>
+<% unless @index.nil? -%>
     index => "<%= @index %>"
 <% end -%>
-<% unless @manage_template.empty? -%>
+<% unless @manage_template.nil? -%>
     manage_template => <%= @manage_template %>
 <% end -%>
-<% unless @parent.empty? -%>
+<% unless @parent.nil? -%>
     parent => "<%= @parent %>"
 <% end -%>
-<% unless @path.empty? -%>
+<% unless @path.nil? -%>
     path => "<%= @path %>"
 <% end -%>
-<% unless @retry_max_interval.empty? -%>
+<% unless @retry_max_interval.nil? -%>
     retry_max_interval => <%= @retry_max_interval %>
 <% end -%>
-<% unless @routing.empty? -%>
+<% unless @routing.nil? -%>
     routing => "<%= @routing %>"
 <% end -%>
-<% unless @script.empty? -%>
+<% unless @script.nil? -%>
     script => "<%= @script %>"
 <% end -%>
-<% unless @script_lang.empty? -%>
+<% unless @script_lang.nil? -%>
     script_lang => "<%= @script_lang %>"
 <% end -%>
-<% unless @script_type.empty? -%>
+<% unless @script_type.nil? -%>
     script_type => "<%= @script_type %>"
 <% end -%>
-<% unless @script_var_name.empty? -%>
+<% unless @script_var_name.nil? -%>
     script_var_name => "<%= @script_var_name %>"
 <% end -%>
-<% unless @scripted_upsert.empty? -%>
+<% unless @scripted_upsert.nil? -%>
     scripted_upsert => <%= @scripted_upsert %>
 <% end -%>
-<% unless @template.empty? -%>
+<% unless @template.nil? -%>
     template => "<%= @template %>"
 <% end -%>
-<% unless @template_name.empty? -%>
+<% unless @template_name.nil? -%>
     template_name => "<%= @template_name %>"
 <% end -%>
-<% unless @template_overwrite.empty? -%>
+<% unless @template_overwrite.nil? -%>
     template_overwrite => <%= @template_overwrite %>
 <% end -%>
-<% unless @timeout.empty? -%>
+<% unless @timeout.nil? -%>
     timeout => <%= @timeout %>
 <% end -%>
-<% unless @upsert.empty? -%>
+<% unless @upsert.nil? -%>
     upsert => "<%= @upsert %>"
 <% end -%>
-<% unless @workers.empty? -%>
+<% unless @workers.nil? -%>
     workers => <%= @workers %>
 <% end -%>
   }
