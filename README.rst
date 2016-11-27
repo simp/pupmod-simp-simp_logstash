@@ -179,7 +179,7 @@ follows.
   simp_logstash::input::syslog::listen_plain_tcp : true
   simp_logstash::input::syslog::listen_plain_udp : true
  
-  # This uses an stunnel connection to provide an encrypted connection so you
+  # This uses TLS to provide an encrypted connection so you
   # can only point at one node at a time. You could place this behind a load
   # balancer if you want a redundant solution.
  

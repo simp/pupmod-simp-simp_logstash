@@ -41,12 +41,6 @@ describe 'simp_logstash class' do
 client_nets:
   - 'ALL'
 
-pki_dir : '/etc/pki/simp-testing/pki'
-
-stunnel::ca_source : "%{hiera('pki_dir')}/cacerts"
-stunnel::cert : "%{hiera('pki_dir')}/public/%{fqdn}.pub"
-stunnel::key : "%{hiera('pki_dir')}/private/%{fqdn}.pem"
-
 use_simp_pki : false
 use_iptables : true
 
@@ -54,8 +48,10 @@ logstash::logstash_user : 'logstash'
 logstash::logstash_group : 'logstash'
 
 # Required for following tests
-simp_logstash::input::syslog::listen_plain_tcp : true
+simp_logstash::inputs: ['tcp_syslog_tls', 'syslog', 'tcp_json_tls']
 simp_logstash::input::syslog::listen_plain_udp : true
+
+simp_logstash::pkiroot: '/etc/pki/simp-testing/pki'
 
 simp_logstash::outputs :
   - 'file'
@@ -63,7 +59,7 @@ simp_logstash::outputs :
   }
 
   logstash_servers.each do |host|
-    context 'on the servers' do
+    context 'on the logstash_servers' do
       it 'should work with no errors' do
         set_hieradata_on(host, hieradata)
         apply_manifest_on(host, manifest, :catch_failures => true)
@@ -74,9 +70,9 @@ simp_logstash::outputs :
       end
 
       it 'should be running logstash' do
-        on(host, %(ps -ef | grep "[l]ogstash"))
-        # Need to wait for logstash to wake up and allow connections.
+        # Need to wait to determine if logstash will die
         sleep(60)
+        on(host, %(ps -ef | grep "[l]ogstash"))
       end
 
       it 'should have NetCat installed for sending local messages' do

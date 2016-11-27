@@ -32,13 +32,16 @@
 #   users to explicitly set their own configuration files as well as to prevent
 #   issues with the upstream logstash module.
 #
+# @pkiroot The source directory of the PKI certs you want to use for TLS inputs.
+#
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author Ralph Wright <rwright@onyxpoint.com>
 #
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_logstash (
   $inputs = [
-    'syslog'
+    'tcp_syslog_tls'
   ],
   $filters = [
     'audispd',
@@ -53,13 +56,15 @@ class simp_logstash (
   $outputs = [
     'elasticsearch'
   ],
-  $config_purge = true
+  $config_purge = true,
+  $pkiroot      = '/etc/pki'
 ) {
 
   validate_array($inputs)
   validate_array($filters)
   validate_array($outputs)
   validate_bool($config_purge)
+  validate_absolute_path($pkiroot)
 
   include '::java'
   include '::logstash'

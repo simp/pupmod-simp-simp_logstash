@@ -1,0 +1,29 @@
+input {
+  tcp {
+<% unless @add_field.empty? -%>
+    add_field => {
+    <%=
+      @add_field.keys.map do |k|
+        k = %("#{k}" => "#{@add_field[k]}")
+      end.join("\n      ")
+    %>
+    }
+<% end -%>
+<% unless @codec.empty? -%>
+    codec => "<%= @codec %>"
+<% end -%>
+    host => "<%= @host %>"
+    port => <%= @daemon_port %>
+<% unless @lstash_tags.empty? -%>
+    tags => [ "<%= @lstash_tags.join('", "') %>" ]
+<% end -%>
+<% unless @lstash_type.empty? -%>
+    type => "<%= @lstash_type %>"
+<% end -%>
+    ssl_enable => true
+    ssl_verify => <%= @ssl_verify %>
+    ssl_extra_chain_certs => "<%= @lstash_tls_cacert %>"
+    ssl_key   => "<%= @lstash_tls_key %>"
+    ssl_cert  => "<%= @lstash_tls_cert %>"
+  }
+}

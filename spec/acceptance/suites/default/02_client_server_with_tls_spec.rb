@@ -34,7 +34,7 @@ describe 'rsyslog client -> 1 server with TLS' do
 
         it 'should successfully send log messages' do
           on client, 'logger -t FOO 02-TEST-WITH-TLS'
-          sleep(5)
+          sleep(15)
           remote_log = '/var/log/logstash/file_output.log'
           on server, "test -f #{remote_log}"
           on server, "grep 02-TEST-WITH-TLS #{remote_log}"
