@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_logstash",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "SIMP Team",
   "summary": "SIMP module for integrating elastic/puppet-logstash",
   "license": "Apache-2.0",
@@ -37,8 +37,8 @@
       "version_requirement": ">= 5.0.0 < 6.0.0"
     },
     {
-      "name": "simp/sysctl",
-      "version_requirement": ">= 5.0.0 < 6.0.0"
+      "name": "herculesteam-augeasproviders_sysctl",
+      "version_requirement": ">= 2.1.0 < 3.0.0"
     },
     {
       "name": "simp/tcpwrappers",
