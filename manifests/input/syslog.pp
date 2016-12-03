@@ -76,7 +76,7 @@
 #   connections on both TCP and UDP for devices which simply do not support
 #   encrypted connections.
 #
-# @param simp_sysctl [Boolean] If set, this class will manage the following
+# @param manage_sysctl [Boolean] If set, this class will manage the following
 #   sysctl variables.
 #   * net.ipv4.conf.all.route_localhost
 #
@@ -89,11 +89,11 @@
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_logstash::input::syslog (
-  $add_field = {},
-  $codec = '',
-  $facility_labels = [],
-  $host = '127.0.0.1',
-  $locale = '',
+  $add_field            = {},
+  $codec                = '',
+  $facility_labels      = [],
+  $host                 = '127.0.0.1',
+  $locale               = '',
   $severity_labels = [
     'Emergency',
     'Alert',
@@ -104,22 +104,22 @@ class simp_logstash::input::syslog (
     'Informational',
     'Debug'
   ],
-  $lstash_tags = '',
-  $timezone = '',
-  $lstash_type = '',
-  $use_labels = true,
-  $order = '50',
-  $content = '',
-  $client_nets           = defined('$::client_nets') ? { true => getvar('::client_nets'), default => hiera('client_nets','127.0.0.1') },
-  $listen_plain_tcp      = false,
-  $listen_plain_udp      = false,
-  $tcp_port              = '514',
-  $udp_port              = '514',
+  $lstash_tags          = '',
+  $timezone             = '',
+  $lstash_type          = '',
+  $use_labels           = true,
+  $order                = '50',
+  $content              = '',
+  $client_nets          = defined('$::client_nets') ? { true => getvar('::client_nets'), default => hiera('client_nets','127.0.0.1') },
+  $listen_plain_tcp     = false,
+  $listen_plain_udp     = false,
+  $tcp_port             = '514',
+  $udp_port             = '514',
   $daemon_port          = '51400',
-  $stunnel_syslog_input  = true,
-  $stunnel_syslog_port   = '6514',
-  $simp_sysctl           = true,
-  $simp_iptables         = defined('$::use_iptables') ? { true => getvar('::use_iptables'), default => hiera('use_iptables',true) }
+  $stunnel_syslog_input = true,
+  $stunnel_syslog_port  = '6514',
+  $manage_sysctl        = true,
+  $simp_iptables        = defined('$::use_iptables') ? { true => getvar('::use_iptables'), default => hiera('use_iptables',true) }
 ) {
 
   validate_hash($add_field)
@@ -142,7 +142,7 @@ class simp_logstash::input::syslog (
   validate_port($daemon_port)
   validate_bool($stunnel_syslog_input)
   validate_port($stunnel_syslog_port)
-  validate_bool($simp_sysctl)
+  validate_bool($manage_sysctl)
   validate_bool($simp_iptables)
 
   ### Common material to all inputs
@@ -195,11 +195,12 @@ class simp_logstash::input::syslog (
         }
       }
 
-      if $simp_sysctl {
-        include '::sysctl'
-
+      if $manage_sysctl {
         # Allow the iptables NAT rules to work properly.
-        sysctl::value { 'net.ipv4.conf.all.route_localnet': value => '1' }
+        sysctl { 'net.ipv4.conf.all.route_localnet':
+          ensure => 'present',
+          val    => '1'
+        }
       }
     }
 

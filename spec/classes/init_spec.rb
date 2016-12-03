@@ -20,8 +20,6 @@ describe 'simp_logstash' do
 
         it { is_expected.to_not create_iptables_rule('tcp_logstash_syslog_redirect')}
         it { is_expected.to_not create_iptables_rule('udp_logstash_syslog_redirect')}
-        it { is_expected.to_not create_sysctl__value('net.ipv4.conf.all.route_localnet')}
-        it { is_expected.to_not create_class('sysctl') }
 
         it { is_expected.to create_class('stunnel') }
         it { is_expected.to create_tcpwrappers__allow('logstash_syslog') }
