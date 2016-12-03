@@ -199,8 +199,7 @@ class simp_logstash::input::syslog (
         # Allow the iptables NAT rules to work properly.
         sysctl { 'net.ipv4.conf.all.route_localnet':
           ensure => 'present',
-          val    => '1',
-          silent => true
+          val    => '1'
         }
       }
     }
