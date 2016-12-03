@@ -40,7 +40,6 @@ describe 'simp_logstash' do
         it { is_expected.to create_simp_logstash__filter('puppet_server') }
         it { is_expected.to create_simp_logstash__filter('slapd_audit') }
         it { is_expected.to create_simp_logstash__output('elasticsearch') }
-
       end
     end
   end
