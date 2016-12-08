@@ -3,6 +3,9 @@
 
 * Tue Nov 22 2016 Jeanne Greulich <jgreulich@onyxpoint.com> - 3.0.0-0
 - Update major version release for SIMP 6
+- Removed stunnel and replaced it with TCP TLS input
+- Added TLS enabled JSON input
+- Updated tests
 
 * Mon Nov 21 2016 Chris Tessmer <chris.tessmer@onyxpoint.com> - 2.0.1-0
 - Minor updates
