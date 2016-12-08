@@ -1,4 +1,4 @@
-# A Logstash filter for the Auditd dispatcher
+# A Logstash filter for SIMP syslog parsing
 #
 # Though this class has a great deal repeated with the other filter classes,
 # they remain separate in the event that variables need to be added in the
@@ -10,19 +10,36 @@
 # @param content [String] The content that you wish to have in your filter. If
 #   set, this will override *all* template contents.
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @param content [String] The content that you wish to have in your filter. If
+#   set, this will override *all* template contents.
+#
+# @param severity_labels [String] Labels for severity levels.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-filters-syslog_pri.html
+#
+# @author Ralph Wright <rwright@onyxpoint.com>
 #
 # @copyright 2016 Onyx Point, Inc.
-class simp_logstash::filter::audispd (
-  $order = '50',
-  $content = ''
+class simp_logstash::filter::simp_syslog (
+  $order = '10',
+  $content = '',
+  $severity_labels = [
+    'Emergency',
+    'Alert',
+    'Critical',
+    'Error',
+    'Warning',
+    'Notice',
+    'Informational',
+    'Debug'
+  ]
 ){
   include '::simp_logstash'
 
   validate_integer($order)
   validate_string($content)
+  validate_array($severity_labels)
 
-  $_component_name = 'audispd'
+  $_component_name = 'simp_syslog'
   $_group = 'filter'
   $_group_order = $::simp_logstash::config_order[$_group]
 
@@ -40,10 +57,5 @@ class simp_logstash::filter::audispd (
     mode    => '0640',
     content => $_content,
     notify  => Class['logstash::service']
-  }
-
-  # We need to add our audit pattern file
-  logstash::patternfile { 'audispd':
-    source => 'puppet:///modules/simp_logstash/audispd'
   }
 }

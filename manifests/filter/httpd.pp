@@ -1,4 +1,4 @@
-# A Logstash filter for the Auditd dispatcher
+# A Logstash filter for httpd
 #
 # Though this class has a great deal repeated with the other filter classes,
 # they remain separate in the event that variables need to be added in the
@@ -13,7 +13,7 @@
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 # @copyright 2016 Onyx Point, Inc.
-class simp_logstash::filter::audispd (
+class simp_logstash::filter::httpd (
   $order = '50',
   $content = ''
 ){
@@ -22,7 +22,7 @@ class simp_logstash::filter::audispd (
   validate_integer($order)
   validate_string($content)
 
-  $_component_name = 'audispd'
+  $_component_name = 'httpd'
   $_group = 'filter'
   $_group_order = $::simp_logstash::config_order[$_group]
 
@@ -40,10 +40,5 @@ class simp_logstash::filter::audispd (
     mode    => '0640',
     content => $_content,
     notify  => Class['logstash::service']
-  }
-
-  # We need to add our audit pattern file
-  logstash::patternfile { 'audispd':
-    source => 'puppet:///modules/simp_logstash/audispd'
   }
 }
