@@ -4,7 +4,19 @@
 filter {
   if [program] == "puppet-agent"  and [message] =~ "^Finished" {
     grok {
-      match => ["message", "Finished catalog run in %{NUMBER:puppet_agent_runtime2} seconds"]
+      match => {"message" => "Finished catalog run in %{NUMBER:puppet_agent_runtime} seconds"}
+    }
+  }
+  if [program] == "puppet-agent" and  [message] =~ "Svckill" {
+    grok {
+      match => {"message" => "Svckill (stopped|disabled) '%{GREEDYDATA:puppet_killed_service}'"}
+    }
+  }
+  if [program] == "puppet-agent" {
+    grok {
+      match => {"message" => "[%{DATA:puppet_resource}]"}
+      break_on_match => false
     }
   }
 }
+

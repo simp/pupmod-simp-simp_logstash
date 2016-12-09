@@ -38,19 +38,23 @@
 #
 class simp_logstash (
   $inputs = [
-    'syslog'
+    'tcp_syslog_tls'
   ],
   $filters = [
+    'audispd',
     'puppet_agent',
     'puppet_server',
     'slapd_audit',
     'sshd',
-    'sudosh'
+    'sudosh',
+    'httpd',
+    'yum'
   ],
   $outputs = [
     'elasticsearch'
   ],
-  $config_purge = true
+  $config_purge = true,
+  $pkiroot      = '/etc/pki'
 ) {
 
   validate_array($inputs)

@@ -1,0 +1,8 @@
+filter {
+  if [program] == "httpd" {
+    grok {
+      match => {"message" => "\] %{IPORHOST:clientip}.* %{QUOTEDSTRING:httpd_request} %{NUMBER:response} %{NUMBER:bytes}"}
+      match => {"message" => "%{COMBINEDAPACHELOG}"}
+    }
+  }
+}

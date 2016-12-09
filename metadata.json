@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_logstash",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "author": "SIMP",
   "summary": "SIMP module for integrating elastic/puppet-logstash",
   "license": "Apache-2.0",
@@ -33,16 +33,12 @@
       "version_requirement": ">= 1.2.3"
     },
     {
-      "name": "simp/stunnel",
-      "version_requirement": ">= 4.2.3"
-    },
-    {
       "name": "simp/sysctl",
       "version_requirement": ">= 4.2.0"
     },
     {
-      "name": "simp/tcpwrappers",
-      "version_requirement": ">= 4.1.0"
+      "name": "simp/pki",
+      "version_requirement": ">= 4.2.4 < 5.0.0"
     }
   ],
   "operatingsystem_support": [
