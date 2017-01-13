@@ -1,8 +1,8 @@
 # Drop all Requires, Obsoletes, and Provides statements in here
 Provides: pupmod-simp-logstash
 Obsoletes: pupmod-simp-logstash < 2.0.0
-Requires: pupmod-elasticsearch-logstash >= 5.0.3
-Requires: pupmod-elasticsearch-logstash < 6.0.0
+Requires: pupmod-elastic-logstash >= 5.0.3
+Requires: pupmod-elastic-logstash < 6.0.0
 Requires: pupmod-puppetlabs-java >= 1.2.0
 Requires: pupmod-puppetlabs-java < 2.0.0
 Requires: pupmod-puppetlabs-stdlib >= 4.13.1
