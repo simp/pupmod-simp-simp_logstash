@@ -45,6 +45,26 @@
 #     * app_pki_ca
 #     * app_pki_ca_dir
 #
+# @param app_pki_external_source
+#   * If pki = 'simp' or true, this is the directory from which certs will be
+#     copied, via pki::copy.  Defaults to /etc/pki/simp/x509.
+#
+#   * If pki = false, this variable has no effect.
+#
+# @param app_pki_dir
+#   This variable controls the basepath of $app_pki_key, $app_pki_cert,
+#   $app_pki_ca, $app_pki_ca_dir, and $app_pki_crl.
+#   It defaults to /etc/pki/simp_apps/logstash/x509.
+#
+# @param app_pki_key
+#   Path and name of the private SSL key file
+#
+# @param app_pki_cert
+#   Path and name of the public SSL certificate
+#
+# @param app_pki_ca_dir
+#   Path to the CA.
+#
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 # @author Ralph Wright <rwright@onyxpoint.com>
 #
@@ -70,11 +90,10 @@ class simp_logstash (
   Boolean                       $config_purge             = true,
   Simplib::Netlist              $trusted_nets             = simplib::lookup('simp_options::trusted_nets', {'default_value' =>   ['127.0.0.1/32'] }),
   Stdlib::Absolutepath          $app_pki_dir              = '/etc/pki/simp_apps/logstash/x509',
-  Stdlib::Absolutepath          $app_pki_external_source  = simplib::lookup('simp_options::pki::source', { 'default_value' => '/etc/simp/pki/x509' }),
+  Stdlib::Absolutepath          $app_pki_external_source  = simplib::lookup('simp_options::pki::source', { 'default_value' => '/etc/pki/simp/x509' }),
   Stdlib::Absolutepath          $app_pki_key              = "${app_pki_dir}/private/${facts['fqdn']}.pem",
   Stdlib::Absolutepath          $app_pki_cert             = "${app_pki_dir}/public/${facts['fqdn']}.pub",
-  Stdlib::Absolutepath          $app_pki_cacerts          = "${app_pki_dir}/cacerts/cacerts.pem",
-
+  Stdlib::Absolutepath          $app_pki_ca               = "${app_pki_dir}/cacerts/cacerts.pem",
   Variant[Enum['simp'],Boolean] $pki                      = simplib::lookup('simp_options::pki', { 'default_value'         => false })
 ) {
 

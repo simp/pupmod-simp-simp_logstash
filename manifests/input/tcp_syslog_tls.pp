@@ -55,7 +55,7 @@ class simp_logstash::input::tcp_syslog_tls (
   Boolean                 $ssl_verify         = true,
   Stdlib::Absolutepath    $lstash_tls_cert    = $::simp_logstash::app_pki_cert,
   Stdlib::Absolutepath    $lstash_tls_key     = $::simp_logstash::app_pki_key,
-  Stdlib::Absolutepath    $lstash_tls_cacerts = $::simp_logstash::app_pki_cacerts
+  Stdlib::Absolutepath    $lstash_tls_cacerts = $::simp_logstash::app_pki_ca
 ) {
 
   include '::simp_logstash'

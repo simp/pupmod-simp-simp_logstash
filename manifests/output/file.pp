@@ -37,7 +37,7 @@ class simp_logstash::output::file (
   Optional[Integer[0]]  $flush_interval    = undef,
   Optional[Boolean]     $gzip              = undef,
   Optional[String]      $content           = undef,
-  Optional[Integer[0]]  $workers           = undef 
+  Optional[Integer[0]]  $workers           = undef
 ) {
 
   ### Common material to all outputs

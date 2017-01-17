@@ -7,6 +7,7 @@ describe 'simp_logstash' do
 
       context "on #{os}" do
         let(:params) {{
+          :pki    => 'simp',
           :inputs => ['tcp_syslog_tls','syslog','tcp_json_tls'],
         }}
 
@@ -38,6 +39,8 @@ describe 'simp_logstash' do
         }
 
         it { is_expected.to contain_class('simp_logstash::config::pki') }
+        it { is_expected.to contain_class('pki')}
+        it { is_expected.to create_file('/etc/pki/simp_apps/logstash/x509')}
 
         it { is_expected.to create_class('iptables') }
 

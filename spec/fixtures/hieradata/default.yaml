@@ -2,3 +2,5 @@
 
 logstash::logstash_user : 'logstash'
 logstash::logstash_group : 'logstash'
+
+simp_options::pki: 'simp'
