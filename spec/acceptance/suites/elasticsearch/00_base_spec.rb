@@ -18,10 +18,10 @@ describe 'simp_logstash class with elasticsearch' do
       pattern => 'ALL'
     }
 
-    iptables::add_tcp_stateful_listen { 'i_love_testing':
-      order => '8',
-      client_nets => 'ALL',
-      dports => '22'
+    iptables::listen::tcp_stateful { 'i_love_testing':
+      order        => 8,
+      trusted_nets => ['any'],
+      dports       => 22
     }
   EOM
 
@@ -50,23 +50,17 @@ describe 'simp_logstash class with elasticsearch' do
   let(:hieradata) {
     <<-EOS
 ---
-client_nets:
+simp_options::trusted_nets:
   - 'ALL'
 
-pki_dir : '/etc/pki/simp-testing/pki'
-
-stunnel::ca_source : "%{hiera('pki_dir')}/cacerts"
-stunnel::cert : "%{hiera('pki_dir')}/public/%{fqdn}.pub"
-stunnel::key : "%{hiera('pki_dir')}/private/%{fqdn}.pem"
-
-use_simp_pki : false
-use_iptables : true
+simp_options::pki: true
+simp_options::pki::source : '/etc/pki/simp-testing/pki'
+simp_options::firewall: true
 
 # Elasticsearch Settings
 #
 # Single node for these tests. The 'simp_elasticsearch' module tests
 # clustering.
-
 simp_elasticsearch::cluster_name : 'test_cluster'
 simp_elasticsearch::http_method_acl :
   'limits' :
@@ -74,23 +68,17 @@ simp_elasticsearch::http_method_acl :
       '#ES_CLIENT#' : 'defaults'
 
 # Bind to the testing certificates
-apache::ssl::use_simp_pki : false
-apache::ssl::cert_source : "file://%{hiera('pki_dir')}"
 apache::rsync_web_root : false
-
+simp_apache::rsync_web_root: false
 rsync::server : "%{::fqdn}"
 
 # Logstash Settings
-
 logstash::logstash_user : 'logstash'
 logstash::logstash_group : 'logstash'
 
 # Required for following tests
-
 simp_logstash::input::syslog::listen_plain_tcp : true
-
 simp_logstash::output::elasticsearch::host : '#ES_HOST#'
-
 simp_logstash::outputs :
   - 'file'
   - 'elasticsearch'

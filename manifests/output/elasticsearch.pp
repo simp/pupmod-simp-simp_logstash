@@ -152,7 +152,7 @@ class simp_logstash::output::elasticsearch (
       $_port = $port
     }
     else {
-      stunnel::add { 'logstash_elasticsearch':
+      stunnel::connection { 'logstash_elasticsearch':
         client  => true,
         connect => ["${host}:${stunnel_port}"],
         accept  => "${_host}:${stunnel_port}"
