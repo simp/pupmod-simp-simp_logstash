@@ -10,11 +10,11 @@ describe 'rsyslog client -> 1 server with TLS' do
     servers.each do |server|
       client_manifest = <<-EOS
           class { 'rsyslog':
-            log_servers         => ['#{fact_on(server, 'fqdn')}'],
-            logrotate           => true,
-            enable_tls_logging  => true,
-            pki                 => false,
-            app_pki_dir         => '/etc/pki/simp-testing/pki'
+            log_servers             => ['#{fact_on(server, 'fqdn')}'],
+            logrotate               => true,
+            enable_tls_logging      => true,
+            pki                     => true,
+            app_pki_external_source => '/etc/pki/simp-testing/pki'
           }
 
           rsyslog::rule::remote { 'send_the_logs':

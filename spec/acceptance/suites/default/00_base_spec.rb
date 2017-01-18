@@ -42,7 +42,6 @@ describe 'simp_logstash class' do
 simp_options::trusted_nets:
   - 'any'
 
-#use_simp_pki : false
 
 logstash::logstash_user : 'logstash'
 logstash::logstash_group : 'logstash'
@@ -51,7 +50,8 @@ logstash::logstash_group : 'logstash'
 simp_logstash::inputs: ['tcp_syslog_tls', 'syslog', 'tcp_json_tls']
 simp_logstash::input::syslog::listen_plain_udp : true
 
-simp_logstash::app_pki_external_source: '/etc/pki/simp-testing/pki'
+simp_options::pki: true
+simp_options::pki::source: '/etc/pki/simp-testing/pki'
 
 simp_logstash::outputs :
   - 'file'

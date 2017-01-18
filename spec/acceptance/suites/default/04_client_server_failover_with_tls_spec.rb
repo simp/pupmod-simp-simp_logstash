@@ -27,12 +27,12 @@ describe 'rsyslog client -> 2 servers without TLS with failover' do
     let(:client_manifest) {
       <<-EOS
         class { 'rsyslog':
-          log_servers      => ['#{fact_on(primary_server, 'fqdn')}'],
-          failover_log_servers => ['#{fact_on(failover_server, 'fqdn')}'],
-          logrotate     => true,
-          enable_tls_logging   => true,
-          pki           => false,
-          app_pki_dir   => '/etc/pki/simp-testing/pki'
+          log_servers             => ['#{fact_on(primary_server, 'fqdn')}'],
+          failover_log_servers    => ['#{fact_on(failover_server, 'fqdn')}'],
+          logrotate               => true,
+          enable_tls_logging      => true,
+          pki                     => true,
+          app_pki_external_source => '/etc/pki/simp-testing/pki'
         }
 
         rsyslog::rule::remote { 'send_the_logs':
