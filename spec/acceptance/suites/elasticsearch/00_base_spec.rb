@@ -61,6 +61,7 @@ simp_options::firewall: true
 #
 # Single node for these tests. The 'simp_elasticsearch' module tests
 # clustering.
+simp_elasticsearch::apache::ssl_verify_client: 'none'
 simp_elasticsearch::cluster_name : 'test_cluster'
 simp_elasticsearch::http_method_acl :
   'limits' :
@@ -77,7 +78,9 @@ logstash::logstash_user : 'logstash'
 logstash::logstash_group : 'logstash'
 
 # Required for following tests
-simp_logstash::input::syslog::listen_plain_tcp : true
+#simp_logstash::input::syslog::listen_plain_tcp : true
+simp_logstash::inputs: ['tcp_syslog_tls', 'syslog', 'tcp_json_tls']
+simp_logstash::output::elasticsearch::stunnel_verify : 0
 simp_logstash::output::elasticsearch::host : '#ES_HOST#'
 simp_logstash::outputs :
   - 'file'
@@ -89,6 +92,9 @@ simp_logstash::outputs :
   elasticsearch_servers.each do |host|
     context 'to set up the ES hosts' do
       it 'should set up an ES node' do
+        # Hack to make sure eth1 is up
+        on(host, %(/sbin/ifup eth1))
+
         fqdn = fact_on(host, 'fqdn')
 
         hdata = hieradata.dup
@@ -112,6 +118,7 @@ simp_logstash::outputs :
         let(:log_msg) { "SIMP-BASE-TEST-TCP-#{host}" }
 
         it 'should work with no errors' do
+          on(host, %(/sbin/ifup eth1))
           # Set the ES host
           es_hostname = fact_on(es_host, 'fqdn')
           ls_hostname = fact_on(host, 'fqdn')

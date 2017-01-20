@@ -99,6 +99,23 @@
 #   use the stunnel connection to the remote ES system. This is not required if
 #   you are connecting to an ES server on the local system.
 #
+# @param stunnel_verify
+#   Level of mutual authentication to perform                                                            
+#                                                                                                        
+#   * RHEL 6 Options:                                                                                    
+#       * level 1 - verify peer certificate if present                                                   
+#       * level 2 - verify peer certificate                                                              
+#       * level 3 - verify peer with locally installed certificate                                       
+#       * default - no verify                                                                            
+#                                                                                                        
+#   * RHEL 7 Options:                                                                                    
+#       * level 0 - Request and ignore peer certificate.                                                 
+#       * level 1 - Verify peer certificate if present.                                                  
+#       * level 2 - Verify peer certificate.                                                             
+#       * level 3 - Verify peer with locally installed certificate.                                      
+#       * level 4 - Ignore CA chain and only verify peer certificate.                                    
+#       * default - No verify
+#
 # @param stunnel_elasticsearch [Boolean] If set, use a stunnel connection to
 #   connect to ES. This is necessary if you are using ES behind an HTTPS proxy.
 #   If you're using ES on the same host, and using the `::simp_elasticsearch`
@@ -137,6 +154,7 @@ class simp_logstash::output::elasticsearch (
   Optional[Integer[0]]                              $workers               = undef,
   Integer[0]                                        $order                 = 50,
   Optional[String]                                  $content               = undef,
+  Integer                                           $stunnel_verify        = 2,
   Simplib::Port                                     $stunnel_port          = 9200,
   Boolean                                           $stunnel_elasticsearch = true
 ) {
@@ -155,7 +173,8 @@ class simp_logstash::output::elasticsearch (
       stunnel::connection { 'logstash_elasticsearch':
         client  => true,
         connect => ["${host}:${stunnel_port}"],
-        accept  => "${_host}:${stunnel_port}"
+        accept  => "${_host}:${stunnel_port}",
+        verify  => $stunnel_verify
       }
 
       $_port = $stunnel_port
