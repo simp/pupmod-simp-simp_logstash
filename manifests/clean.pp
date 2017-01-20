@@ -51,23 +51,22 @@
 #
 # @copyright 2016 Onyx Point, Inc.
 class simp_logstash::clean (
-  $ensure = 'present',
-  $host = '127.0.0.1',
-  $keep_days = '356',
-  $keep_hours = '',
-  $keep_space = '',
-  $prefix = 'logstash-',
-  $port = '9199',
-  $separator = '.',
-  $es_timeout = '30',
-  $log_file = '/var/log/logstash/curator_clean.log',
-  $cron_hour = '1',
-  $cron_minute = '15',
-  $cron_month = '*',
-  $cron_monthday = '*',
-  $cron_weekday = '*'
+  Enum['present','absent']          $ensure         = 'present',
+  Simplib::Host                     $host           = '127.0.0.1',
+  Stdlib::Compat::Integer           $keep_days      = 356,
+  Optional[Integer[0]]              $keep_hours     = undef,
+  Optional[Integer[0]]              $keep_space     = undef,
+  String                            $prefix         = 'logstash-',
+  Simplib::Port                     $port           = 9199,
+  String                            $separator      = '.',
+  Integer[0]                        $es_timeout     = '30',
+  Stdlib::Absolutepath              $log_file       = '/var/log/logstash/curator_clean.log',
+  Variant[Enum['*'],Integer[0,23]]  $cron_hour      = '1',
+  Variant[Enum['*'],Integer[0,59]]  $cron_minute    = '15',
+  Variant[Enum['*'],Integer[1,12]]  $cron_month     = '*',
+  Variant[Enum['*'],Integer[1,31]]  $cron_monthday  = '*',
+  Variant[Enum['*'],Integer[0,7]]   $cron_weekday   = '*'
 ) {
-  validate_array_member($ensure,['present','absent'])
 
   if defined('$::simp_logstash::auto_clean') and getvar('::simp_logstash::auto_clean') {
     $_simp_ls_auto_clean = true
@@ -77,31 +76,18 @@ class simp_logstash::clean (
   }
 
   if ($ensure == 'present') and $_simp_ls_auto_clean {
-    validate_string($prefix)
-    validate_port($port)
-    validate_string($separator)
-    validate_integer($es_timeout)
-    validate_absolute_path($log_file)
-    if ($cron_hour != '*') { validate_integer($cron_hour) }
-    if ($cron_minute != '*') { validate_integer($cron_minute) }
-    if ($cron_month != '*') { validate_integer($cron_month) }
-    if ($cron_monthday != '*') { validate_integer($cron_monthday) }
-    if ($cron_weekday != '*') { validate_integer($cron_weekday) }
 
     if size(reject([$keep_days, $keep_hours, $keep_space],'^\s*$')) > 1 {
       fail('You may only specify one of $keep_days, $keep_hours, or $keep_space')
     }
 
-    if !empty($keep_hours) {
-      validate_integer($keep_hours)
+    if ! nil($keep_hours) {
       $_limit = "-T hours --older-than ${keep_hours}"
     }
-    elsif ! empty($keep_days) {
-      validate_integer($keep_days)
+    elsif ! nil($keep_days) {
       $_limit = "-T days --older-than ${keep_days}"
     }
-    elsif ! empty($keep_space) {
-      validate_integer($keep_space)
+    elsif ! nil($keep_space) {
       $_limit = "--disk-space ${keep_space}"
     }
     else {

@@ -28,25 +28,17 @@
 #
 # @copyright 2016 Onyx Point, Inc.
 class simp_logstash::output::file (
-  $path              = '/var/log/logstash/file_output.log',
-  $codec             = '',
-  $create_if_deleted = '',
-  $dir_mode          = '',
-  $file_mode         = '',
-  $filename_failure  = '',
-  $flush_interval    = '',
-  $gzip              = '',
-  $workers           = ''
+  Stdlib::Absolutepath  $path              = '/var/log/logstash/file_output.log',
+  Optional[String]      $codec             = undef,
+  Optional[Boolean]     $create_if_deleted = undef,
+  Optional[Integer[0]]  $dir_mode          = undef,
+  Optional[Integer[0]]  $file_mode         = undef,
+  Optional[String]      $filename_failure  = undef,
+  Optional[Integer[0]]  $flush_interval    = undef,
+  Optional[Boolean]     $gzip              = undef,
+  Optional[String]      $content           = undef,
+  Optional[Integer[0]]  $workers           = undef
 ) {
-  validate_absolute_path($path)
-  validate_string($codec)
-  if !empty($create_if_deleted) { validate_bool($create_if_deleted) }
-  if !empty($dir_mode) { validate_integer($dir_mode) }
-  if !empty($file_mode) { validate_integer($file_mode) }
-  validate_string($filename_failure)
-  if !empty($flush_interval) { validate_integer($flush_interval) }
-  if !empty($gzip) { validate_bool($gzip) }
-  if !empty($workers) { validate_integer($workers) }
 
   ### Common material to all outputs
   include '::simp_logstash'

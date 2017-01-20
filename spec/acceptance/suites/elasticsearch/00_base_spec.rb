@@ -18,10 +18,10 @@ describe 'simp_logstash class with elasticsearch' do
       pattern => 'ALL'
     }
 
-    iptables::add_tcp_stateful_listen { 'i_love_testing':
-      order => '8',
-      client_nets => 'ALL',
-      dports => '22'
+    iptables::listen::tcp_stateful { 'i_love_testing':
+      order        => 8,
+      trusted_nets => ['any'],
+      dports       => 22
     }
   EOM
 
@@ -50,23 +50,18 @@ describe 'simp_logstash class with elasticsearch' do
   let(:hieradata) {
     <<-EOS
 ---
-client_nets:
+simp_options::trusted_nets:
   - 'ALL'
 
-pki_dir : '/etc/pki/simp-testing/pki'
-
-stunnel::ca_source : "%{hiera('pki_dir')}/cacerts"
-stunnel::cert : "%{hiera('pki_dir')}/public/%{fqdn}.pub"
-stunnel::key : "%{hiera('pki_dir')}/private/%{fqdn}.pem"
-
-use_simp_pki : false
-use_iptables : true
+simp_options::pki: true
+simp_options::pki::source : '/etc/pki/simp-testing/pki'
+simp_options::firewall: true
 
 # Elasticsearch Settings
 #
 # Single node for these tests. The 'simp_elasticsearch' module tests
 # clustering.
-
+simp_elasticsearch::apache::ssl_verify_client: 'none'
 simp_elasticsearch::cluster_name : 'test_cluster'
 simp_elasticsearch::http_method_acl :
   'limits' :
@@ -74,23 +69,19 @@ simp_elasticsearch::http_method_acl :
       '#ES_CLIENT#' : 'defaults'
 
 # Bind to the testing certificates
-apache::ssl::use_simp_pki : false
-apache::ssl::cert_source : "file://%{hiera('pki_dir')}"
 apache::rsync_web_root : false
-
+simp_apache::rsync_web_root: false
 rsync::server : "%{::fqdn}"
 
 # Logstash Settings
-
 logstash::logstash_user : 'logstash'
 logstash::logstash_group : 'logstash'
 
 # Required for following tests
-
-simp_logstash::input::syslog::listen_plain_tcp : true
-
+#simp_logstash::input::syslog::listen_plain_tcp : true
+simp_logstash::inputs: ['tcp_syslog_tls', 'syslog', 'tcp_json_tls']
+simp_logstash::output::elasticsearch::stunnel_verify : 0
 simp_logstash::output::elasticsearch::host : '#ES_HOST#'
-
 simp_logstash::outputs :
   - 'file'
   - 'elasticsearch'
@@ -101,6 +92,9 @@ simp_logstash::outputs :
   elasticsearch_servers.each do |host|
     context 'to set up the ES hosts' do
       it 'should set up an ES node' do
+        # Hack to make sure eth1 is up
+        on(host, %(/sbin/ifup eth1))
+
         fqdn = fact_on(host, 'fqdn')
 
         hdata = hieradata.dup
@@ -124,6 +118,7 @@ simp_logstash::outputs :
         let(:log_msg) { "SIMP-BASE-TEST-TCP-#{host}" }
 
         it 'should work with no errors' do
+          on(host, %(/sbin/ifup eth1))
           # Set the ES host
           es_hostname = fact_on(es_host, 'fqdn')
           ls_hostname = fact_on(host, 'fqdn')

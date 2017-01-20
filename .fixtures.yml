@@ -1,7 +1,7 @@
 ---
 fixtures:
   repositories:
-    apache:
+    simp_apache:
       repo: https://github.com/simp/pupmod-simp-apache
       branch: master
     auditd:
@@ -22,12 +22,19 @@ fixtures:
     augeasproviders_sysctl:
       repo: https://github.com/simp/augeasproviders_sysctl
       branch: simp-master
+    compliance_mapper:
+      repo: https://github.com/simp/pupmod-simp-compliance_markup
+      branch: master
+    concat:
+      repo: https://github.com/simp/puppetlabs-concat
+      branch: simp-master
     datacat:
       repo: https://github.com/simp/puppet-datacat
       branch: simp-master
     elasticsearch:
       repo: https://github.com/simp/puppet-elasticsearch
       branch: simp-master
+    simp_elasticsearch: https://github.com/simp/pupmod-simp-simp_elasticsearch
     file_concat:
       repo: https://github.com/simp/puppet-lib-file_concat
       branch: simp-master
@@ -61,18 +68,16 @@ fixtures:
     rsyslog:
       repo: https://github.com/simp/pupmod-simp-rsyslog
       branch: master
-    simp_elasticsearch:
-      repo: https://github.com/simp/pupmod-simp-simp_elasticsearch
-      branch: master
     simpcat:
       repo: https://github.com/simp/pupmod-simp-concat
       branch: master
     simplib:
       repo: https://github.com/simp/pupmod-simp-simplib
       branch: master
+    simp_options: https://github.com/simp/pupmod-simp-simp_options
     stdlib:
       repo: https://github.com/simp/puppetlabs-stdlib
-      branch: simp-master
+      branch: master
     stunnel:
       repo: https://github.com/simp/pupmod-simp-stunnel
       branch: master

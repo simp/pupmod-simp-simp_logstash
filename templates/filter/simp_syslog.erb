@@ -1,0 +1,17 @@
+# This file managed by Puppet
+# # Any changes will be overwritten
+
+filter {
+  if [type] == "simp_syslog" {
+    grok {
+      match => {"message" => "<%%{POSINT:priority}>%{SYSLOGLINE}"}
+      overwrite => "message"
+      tag_on_failure => ["_grokparsefailure_sysloginput"]
+    }
+    syslog_pri {
+<% unless @severity_labels.empty? -%>
+    severity_labels => [ "<%= @severity_labels.join('", "') %>" ]
+<% end -%>
+    }
+  }
+}

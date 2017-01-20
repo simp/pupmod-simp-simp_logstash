@@ -5,6 +5,7 @@ test_name 'simp_logstash class'
 describe 'simp_logstash class' do
 
   logstash_servers = hosts_with_role(hosts, 'logstash_server')
+  el7_hosts        = hosts_with_role(hosts, 'el7')
 
   # For the test log messages
   test_time = Time.now.strftime('%b %d %H:%M:%S')
@@ -17,10 +18,10 @@ describe 'simp_logstash class' do
       pattern => 'ALL'
     }
 
-    iptables::add_tcp_stateful_listen { 'i_love_testing':
-      order => '8',
-      client_nets => 'ALL',
-      dports => '22'
+    iptables::listen::tcp_stateful { 'i_love_testing':
+      order => 8,
+      trusted_nets => ['any'],
+      dports => 22
     }
   EOM
 
@@ -38,24 +39,19 @@ describe 'simp_logstash class' do
   let(:hieradata) {
     <<-EOS
 ---
-client_nets:
-  - 'ALL'
+simp_options::trusted_nets:
+  - 'any'
 
-pki_dir : '/etc/pki/simp-testing/pki'
-
-stunnel::ca_source : "%{hiera('pki_dir')}/cacerts"
-stunnel::cert : "%{hiera('pki_dir')}/public/%{fqdn}.pub"
-stunnel::key : "%{hiera('pki_dir')}/private/%{fqdn}.pem"
-
-use_simp_pki : false
-use_iptables : true
 
 logstash::logstash_user : 'logstash'
 logstash::logstash_group : 'logstash'
 
 # Required for following tests
-simp_logstash::input::syslog::listen_plain_tcp : true
+simp_logstash::inputs: ['tcp_syslog_tls', 'syslog', 'tcp_json_tls']
 simp_logstash::input::syslog::listen_plain_udp : true
+
+simp_options::pki: true
+simp_options::pki::source: '/etc/pki/simp-testing/pki'
 
 simp_logstash::outputs :
   - 'file'
@@ -63,7 +59,12 @@ simp_logstash::outputs :
   }
 
   logstash_servers.each do |host|
-    context 'on the servers' do
+    #Hack to Force eth1 up
+    context 'on the el7_hosts' do
+      on(host, %(/sbin/ifup eth1))
+    end
+
+    context 'on the logstash_servers' do
       it 'should work with no errors' do
         set_hieradata_on(host, hieradata)
         apply_manifest_on(host, manifest, :catch_failures => true)
@@ -74,9 +75,9 @@ simp_logstash::outputs :
       end
 
       it 'should be running logstash' do
-        on(host, %(ps -ef | grep "[l]ogstash"))
-        # Need to wait for logstash to wake up and allow connections.
+        # Need to wait to determine if logstash will die
         sleep(60)
+        on(host, %(ps -ef | grep "[l]ogstash"))
       end
 
       it 'should have NetCat installed for sending local messages' do

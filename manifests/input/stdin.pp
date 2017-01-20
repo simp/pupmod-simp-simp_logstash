@@ -13,12 +13,9 @@
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_logstash::input::stdin (
-  $order = '50',
-  $content = ''
+  Integer           $order    = 50,
+  Optional[String]  $content  = undef
 ){
-
-  validate_integer($order)
-  validate_string($content)
 
   ### Common material to all inputs
   include '::simp_logstash'
