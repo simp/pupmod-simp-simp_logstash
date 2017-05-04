@@ -11,47 +11,65 @@
 # output filtering. If you need logstash filters or additional inputs/outputs,
 # you will need to configure them separately.
 #
-# @param add_field [Hash] Add a field to an event.
+# @param add_field Add a field to an event.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param codec [String] The codec used for input data.
+# @param codec The codec used for input data.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param host [String] The address upon which to listen.
+# @param enable_metric Whether to enable metric logging for this plugin instance.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param lstash_tags [Array] Arbitrary tags for your events.
+# @param host The address upon which to listen.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param order [Integer] The relative order within the configuration group. If
+# @param id Unique ID for this input plugin configuration.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param lstash_tags Arbitrary tags for your events.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param lstash_type Type field to be added to all syslog events.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param order The relative order within the configuration group. If
 #   omitted, the entries will fall in alphabetical order.
 #
-# @param content [String] The content that you wish to have in your filter. If
+# @param content The content that you wish to have in your filter. If
 #   set, this will override *all* template contents.
 #
-# @param daemon_port [Port] The port that logstash itself should listen on.
+# @param daemon_port The port that logstash itself should listen on.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param ssl_verify [Absolutepath] Verify the SSL certificate of senders.
+# @param proxy_protocol Whether to support proxy protocol, v1.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param lstash_tls_cert [Absolutepath] The SSL certificate to use for the TLS
+# @param ssl_verify Verify the SSL certificate of senders.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param lstash_tls_cert The SSL certificate to use for the TLS
 #   listener.
 #
-# @param lstash_tls_key [Absolutepath] The SSL key to use for the TLS listener.
+# @param lstash_tls_key The SSL key to use for the TLS listener.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param lstash_tls_cacerts [Absolutepath] The file the contains the CA
-#   certificates.
+# @param lstash_tls_cacerts The file the contains the CA certificates.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
 # @author Ralph Wright <rwright@onyxpoint.com>
 #
 class simp_logstash::input::tcp_json_tls (
   Optional[Hash]          $add_field          = {},
   Optional[String]        $codec              = 'json',
+  Optional[Boolean]       $enable_metric      = undef,
   Optional[Simplib::IP]   $host               = '0.0.0.0',
+  Optional[String]        $id                 = 'simp_tcp_json_tls',
   Optional[Array[String]] $lstash_tags        = undef,
   String                  $lstash_type        = 'json',
   Integer[0]              $order              = 50,
   Optional[String]        $content            = undef,
   Simplib::Port           $daemon_port        = 5140,
+  Optional[Boolean]       $proxy_protocol     = undef,
   Boolean                 $ssl_verify         = true,
   Stdlib::Absolutepath    $lstash_tls_cert    = $::simp_logstash::app_pki_cert,
   Stdlib::Absolutepath    $lstash_tls_key     = $::simp_logstash::app_pki_key,
@@ -81,8 +99,12 @@ class simp_logstash::input::tcp_json_tls (
     notify  => Class['logstash::service']
   }
 
-  iptables::listen::tcp_stateful { "allow_${_component_name}":
-    trusted_nets => $::simp_logstash::trusted_nets,
-    dports       => $daemon_port
+  if $::simp_logstash::firewall {
+    include '::iptables'
+
+    iptables::listen::tcp_stateful { "allow_${_component_name}":
+      trusted_nets => $::simp_logstash::trusted_nets,
+      dports       => $daemon_port
+    }
   }
 }

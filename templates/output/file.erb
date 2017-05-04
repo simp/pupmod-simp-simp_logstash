@@ -1,3 +1,6 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
 output {
   file {
     path => "<%= @path %>"
@@ -8,10 +11,13 @@ output {
     create_if_deleted => <%= @create_if_deleted %>
 <% end -%>
 <% unless @dir_mode.nil? -%>
-    dir_mode => <%= @dir_mode %>
+    dir_mode => <%= sprintf("%#o", @dir_mode) %>
+<% end -%>
+<% unless @enable_metric.nil? -%>
+    enable_metric => <%= @enable_metric %>
 <% end -%>
 <% unless @file_mode.nil? -%>
-    file_mode => <%= @file_mode %>
+    file_mode => <%= sprintf("%#o", @file_mode) %>
 <% end -%>
 <% unless @filename_failure.nil? -%>
     filename_failure => <%= @filename_failure %>
@@ -22,6 +28,7 @@ output {
 <% unless @gzip.nil? -%>
     gzip => <%= @gzip %>
 <% end -%>
+    id => "<%= @id %>"
 <% unless @workers.nil? -%>
     workers => <%= @workers %>
 <% end -%>

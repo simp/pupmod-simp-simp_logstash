@@ -2,23 +2,22 @@
 #   there are aspect specific to SIMP log processing, it's called simp_syslog
 #   so it won't conflict with any other more generic syslog processors.
 #
-# @param order [Integer] The relative order within the configuration group. If
+# @param order The relative order within the configuration group. If
 #   omitted, the entries will fall in alphabetical order. We set this filter to
 #   10 so that it can process logs before the rest of our filters.
 #
-# @param content [String] The content that you wish to have in your filter. If
+# @param content The content that you wish to have in your filter. If
 #   set, this will override *all* template contents.
 #
-# @param severity_labels [String] Labels for severity levels.
+# @param severity_labels Labels for severity levels.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-filters-syslog_pri.html
 #
 # @author Ralph Wright <rwright@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
 class simp_logstash::filter::simp_syslog (
-  Integer                       $order            = 10,
-  Optional[String]              $content          = undef,
-  $severity_labels  = [
+  Integer[0]        $order            = 10,
+  Optional[String]  $content          = undef,
+  Array[String]     $severity_labels  = [
     'Emergency',
     'Alert',
     'Critical',

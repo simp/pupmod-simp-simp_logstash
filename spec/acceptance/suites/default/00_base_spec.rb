@@ -10,7 +10,7 @@ describe 'simp_logstash class' do
   # For the test log messages
   test_time = Time.now.strftime('%b %d %H:%M:%S')
 
-  ssh_allow = <<-EOM
+  let(:ssh_allow) { <<-EOM
     include '::tcpwrappers'
     include '::iptables'
 
@@ -18,19 +18,17 @@ describe 'simp_logstash class' do
       pattern => 'ALL'
     }
 
-    iptables::listen::tcp_stateful { 'i_love_testing':
+    iptables::listen::tcp_stateful { 'ssh_allow':
       order => 8,
       trusted_nets => ['any'],
       dports => 22
     }
-  EOM
+    EOM
+  }
 
   let(:manifest) {
     <<-EOS
       include '::simp_logstash'
-
-      # For output testing without ES
-      include '::simp_logstash::output::file'
 
       #{ssh_allow}
     EOS
@@ -42,16 +40,13 @@ describe 'simp_logstash class' do
 simp_options::trusted_nets:
   - 'any'
 
-
-logstash::logstash_user : 'logstash'
-logstash::logstash_group : 'logstash'
-
 # Required for following tests
 simp_logstash::inputs: ['tcp_syslog_tls', 'syslog', 'tcp_json_tls']
 simp_logstash::input::syslog::listen_plain_udp : true
 
 simp_options::pki: true
 simp_options::pki::source: '/etc/pki/simp-testing/pki'
+simp_options::firewall: true
 
 simp_logstash::outputs :
   - 'file'
@@ -64,9 +59,14 @@ simp_logstash::outputs :
       on(host, %(/sbin/ifup eth1))
     end
 
-    context 'on the logstash_servers' do
+    context "on logstash server #{host}" do
       it 'should work with no errors' do
-        set_hieradata_on(host, hieradata)
+        hdata = hieradata.dup
+        if host.name == 'el6-server'
+          # need newer JAVA version
+           hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
+        end
+        set_hieradata_on(host, hdata)
         apply_manifest_on(host, manifest, :catch_failures => true)
       end
 
@@ -85,21 +85,17 @@ simp_logstash::outputs :
       end
 
       it 'should accept UDP logs' do
-        log_msg = 'SIMP-BASE-TEST-UDP'
+        log_msg = "SIMP-BASE-TEST-UDP-#{host}"
         on(host, %(echo '<34>#{test_time} 1.2.3.4 #{log_msg}' | nc -w 2 -u 127.0.0.1 51400))
         remote_log = '/var/log/logstash/file_output.log'
-        sleep(5)
-        on(host, %(test -f #{remote_log}))
-        on(host, %(grep #{log_msg} #{remote_log}))
+        wait_for_log_message(host, remote_log, log_msg)
       end
 
       it 'should accept TCP logs' do
-        log_msg = 'SIMP-BASE-TEST-TCP'
+        log_msg = "SIMP-BASE-TEST-TCP-#{host}"
         on(host, %(echo '<34>#{test_time} 1.2.3.4 #{log_msg}' | nc -w 2 127.0.0.1 51400))
         remote_log = '/var/log/logstash/file_output.log'
-        sleep(5)
-        on(host, %(test -f #{remote_log}))
-        on(host, %(grep #{log_msg} #{remote_log}))
+        wait_for_log_message(host, remote_log, log_msg)
       end
     end
   end

@@ -4,17 +4,16 @@
 # they remain separate in the event that variables need to be added in the
 # future for ERB processing.
 #
-# @param order [Integer] The relative order within the configuration group. If
+# @param order The relative order within the configuration group. If
 #   omitted, the entries will fall in alphabetical order.
 #
-# @param content [String] The content that you wish to have in your filter. If
+# @param content The content that you wish to have in your filter. If
 #   set, this will override *all* template contents.
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
 class simp_logstash::filter::yum (
-  Integer           $order   = 50,
+  Integer[0]        $order   = 50,
   Optional[String]  $content = undef
 ){
   include '::simp_logstash'

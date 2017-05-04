@@ -11,11 +11,11 @@ HOSTS:
     hypervisor: vagrant
     yum_repos:
       logstash:
-        #baseurl: 'http://10.255.0.1:8888/'
-        baseurl: 'http://packages.elastic.co/logstash/2.3/centos'
-        gpgcheck: 0
+        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        gpgkeys:
+          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
       epel:
-        url: 'http://download.fedoraproject.org/pub/epel/7/$basearch'
+        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
 
@@ -27,18 +27,15 @@ HOSTS:
     platform:   el-7-x86_64
     box:        centos/7
     hypervisor: vagrant
-    simp_update_url : https://dl.bintray.com/simp/5.1.X
     yum_repos:
-      simp:
-        baseurl: https://dl.bintray.com/simp/5.1.X
-        gpgcheck: 0
       epel:
-        url: 'http://download.fedoraproject.org/pub/epel/7/$basearch'
+        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
       elasticsearch:
-        baseurl: 'https://packages.elastic.co/elasticsearch/2.x/centos'
-        gpgcheck: 0
+        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        gpgkeys:
+          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
   el6-server:
     roles:
@@ -49,11 +46,11 @@ HOSTS:
     hypervisor: vagrant
     yum_repos:
       logstash:
-        baseurl: 'http://packages.elastic.co/logstash/2.3/centos'
-        #baseurl: 'http://10.255.0.1:8888/'
-        gpgcheck: 0
+        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        gpgkeys:
+          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
       epel:
-        url: 'http://download.fedoraproject.org/pub/epel/6/$basearch'
+        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
         gpgkeys:
           - https://getfedora.org/static/0608B895.txt
 
@@ -65,18 +62,15 @@ HOSTS:
     platform:   el-6-x86_64
     box:        centos/6
     hypervisor: vagrant
-    simp_update_url : https://dl.bintray.com/simp/4.2.X
     yum_repos:
-      simp:
-        baseurl: https://dl.bintray.com/simp/4.2.X
-        gpgcheck: 0
       epel:
-        url: 'http://download.fedoraproject.org/pub/epel/6/$basearch'
+        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
         gpgkeys:
           - https://getfedora.org/static/0608B895.txt
       elasticsearch:
-        baseurl: 'https://packages.elastic.co/elasticsearch/2.x/centos'
-        gpgcheck: 0
+        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        gpgkeys:
+          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
 CONFIG:
   log_level: verbose

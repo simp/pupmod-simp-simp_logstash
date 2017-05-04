@@ -1,11 +1,11 @@
 # This file managed by Puppet
-# # Any changes will be overwritten
+# Any changes will be overwritten
 
 filter {
   if [type] == "simp_syslog" {
     grok {
       match => {"message" => "<%%{POSINT:priority}>%{SYSLOGLINE}"}
-      overwrite => "message"
+      overwrite => [ "message" ]
       tag_on_failure => ["_grokparsefailure_sysloginput"]
     }
     syslog_pri {

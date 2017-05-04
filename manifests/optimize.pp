@@ -1,48 +1,48 @@
 # Sets up a cron job to optimize your ElasticSearch indices on a regular basis
 # using elasticsearch-curator.
 #
-# @param ensure [String] Whether to add, or delete, the index job.
+# @param ensure Whether to add, or delete, the index job.
 #   Allowed Values: *present*, absent
 #
-# @param host [Hostname] The host upon which to operate. Ideally, you will
+# @param host The host upon which to operate. Ideally, you will
 #   position this job locally but it will work over thet network just as well
 #   provided your access controls allow it.
 #
-# @param optimize_days [Integer] The number of days to keep within
+# @param optimize_days The number of days to keep within
 #   ElasticSearch. Mutually exclusive with optimize_hours.
 #
-# @param optimize_hours [Integer] The number of hours to keep within
+# @param optimize_hours The number of hours to keep within
 #   ElasticSearch. Mutually exclusive with optimize_days.
 #
-# @param prefix [String] The prefix to use to identify relevant logs. This is
+# @param prefix The prefix to use to identify relevant logs. This is
 #   a match so 'foo' will match 'foo', 'foosball', and 'foot'.
 #
-# @param port* [Port] The port to which to connect. Since this is SIMP
+# @param port The port to which to connect. Since this is SIMP
 #   tailored, we use our local unencrypted default.
 #
-# @param separator [Char] The index separator.
+# @param separator The index separator.
 #
-# @param es_timeout [Integer] The timeout, in seconds, to wait for a response
+# @param es_timeout The timeout, in seconds, to wait for a response
 #   from Elasticsearch.
 #
-# @param max_num_segments [Integer] Optimize segment count to $max_num_segments
+# @param max_num_segments Optimize segment count to $max_num_segments
 #   per shard.
 #
-# @param log_file [Absolute Path] The log file to which to print curator
+# @param log_file The log file to which to print curator
 #   output.
 #
-# @param cron_hour [Integer or '*'] The hour at which to run the index cleanup.
+# @param cron_hour The hour at which to run the index cleanup.
 #
-# @param cron_minute [Integer or '*'] The minute at which to run the index
+# @param cron_minute The minute at which to run the index
 #   cleanup.
 #
-# @param cron_month [Integer or '*'] The month within which to run the index
+# @param cron_month The month within which to run the index
 #   cleanup.
 #
-# @param cron_monthday [Integer or '*'] The day of the month upon which to run
+# @param cron_monthday The day of the month upon which to run
 #   the index cleanup.
 #
-# @param cron_weekday [Integer or '*'] The day of the week upon which to run
+# @param cron_weekday The day of the week upon which to run
 #   the index cleanup.
 #
 class simp_logstash::optimize (

@@ -1,8 +1,8 @@
 require 'spec_helper_acceptance'
 
-test_name 'rsyslog clients -> 1 server with TLS'
+test_name 'rsyslog clients -> 1 logstash server with TLS'
 
-describe 'rsyslog client -> 1 server with TLS' do
+describe 'rsyslog client -> 1 logstash server with TLS' do
   clients = hosts_with_role( hosts, 'client' )
   servers = hosts_with_role( hosts, 'logstash_server' )
 
@@ -22,7 +22,7 @@ describe 'rsyslog client -> 1 server with TLS' do
           }
         EOS
 
-      context 'client -> 1 server using TLS' do
+      context "client #{client}-> logstash server #{server} using TLS" do
         it 'should configure client without errors' do
           apply_manifest_on(client, client_manifest, :catch_failures => true)
         end
@@ -32,11 +32,10 @@ describe 'rsyslog client -> 1 server with TLS' do
         end
 
         it 'should successfully send log messages' do
-          on client, 'logger -t FOO 02-TEST-WITH-TLS'
-          sleep(15)
+          log_msg = "02-TEST-WITH-TLS-#{client}"
+          on client, "logger -t FOO #{log_msg}"
           remote_log = '/var/log/logstash/file_output.log'
-          on server, "test -f #{remote_log}"
-          on server, "grep 02-TEST-WITH-TLS #{remote_log}"
+          wait_for_log_message(server, remote_log, log_msg)
         end
       end
     end

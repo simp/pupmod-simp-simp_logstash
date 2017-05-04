@@ -2,7 +2,7 @@
 # Any changes will be overwritten
 
 filter {
-# These need to be combined or made more effecient in the future.  Could slow
+# These need to be combined or made more efficient in the future.  Could slow
 # down log flow on high volume systems.
   if [program] == "audispd" {
     grok {
