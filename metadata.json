@@ -13,8 +13,8 @@
   ],
   "dependencies": [
     {
-      "name": "elasticsearch/logstash",
-      "version_requirement": ">= 5.1.0 < 6.0.0"
+      "name": "elastic/logstash",
+      "version_requirement": ">= 5.2.1 < 6.0.0"
     },
     {
       "name": "puppetlabs/java",
