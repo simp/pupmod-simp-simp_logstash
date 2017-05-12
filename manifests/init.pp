@@ -18,7 +18,11 @@
 #   logstash::java_options : ['-Xms10g', '-Xmx10g']
 #
 # See simp_logstash::clean if you want to automatically prune your logs to
-# conserve ElasticSearch storage space.
+# conserve Elasticsearch storage space.
+#
+# See simp_logstash::optimize if you want to automatically merge
+# Elasticsearch log segments to conserve storage space and speed up
+# cluster recovery after Elasticsearch restart.
 #
 # @param inputs An Array of inputs to be enabled. These can
 #   also be individually enabled by class.

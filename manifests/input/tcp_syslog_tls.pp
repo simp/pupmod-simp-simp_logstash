@@ -12,7 +12,7 @@
 # you will need to configure them separately.
 #
 # See simp_logstash::clean if you want to automatically prune your logs to
-# conserve ElasticSearch storage space.
+# conserve Elasticsearch storage space.
 #
 # @param add_field Add a field to an event.
 #  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
