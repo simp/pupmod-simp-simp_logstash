@@ -2,9 +2,9 @@
 # Any changes will be overwritten
 
 filter {
-  if [program] == "puppet-agent"  and [message] =~ "^Finished" {
+  if [program] == "puppet-agent"  and [message] =~ "^Applied" {
     grok {
-      match => {"message" => "Finished catalog run in %{NUMBER:puppet_agent_runtime} seconds"}
+      match => {"message" => "Applied catalog in %{NUMBER:puppet_agent_runtime} seconds"}
     }
   }
   if [program] == "puppet-agent" and  [message] =~ "Svckill" {
