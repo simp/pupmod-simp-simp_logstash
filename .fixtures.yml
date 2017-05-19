@@ -31,11 +31,9 @@ fixtures:
     elasticsearch:
       repo: https://github.com/simp/puppet-elasticsearch
       ref: 5.2.0
-#FIXME: Use PR for 5.X update to pupmod-simp-simp_elasticsearch until this is merged.
-#    simp_elasticsearch: https://github.com/simp/pupmod-simp-simp_elasticsearch
     simp_elasticsearch:
       repo: https://github.com/lnemsick-simp/pupmod-simp-simp_elasticsearch
-      branch: SIMP-3048
+      branch: master
     file_concat:
       repo: https://github.com/simp/puppet-lib-file_concat
       ref: simp6.0.0-1.0.1
