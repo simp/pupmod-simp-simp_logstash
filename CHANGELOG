@@ -1,3 +1,9 @@
+* Fri Apr 05 2017 Liz Nemsick <lnemsick.simp@gmail.com> - 5.0.0-0
+- Updated to LogStash 5.X and Elasticsearch 5.X
+- Fixed type bug in simp_logstash::output::elasticsearch::action.
+- Fixed enum typo in enum for simp_logstash::output::elasticsearch::script_type
+- Fixed puppet strings problems.
+
 * Fri Dec 02 2016 Nick Markowski <nmarkowski@keywcorp.com> - 3.0.1-0
 - Removed pupmod-simp-sysctl in favor of augeas-sysctl
 

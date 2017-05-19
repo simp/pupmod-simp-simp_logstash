@@ -98,12 +98,12 @@ commercial solutions from Elastic, or you can apply the `SIMP IPSec Module`_.
   ---
   # The networks that you want to allow to connect to your systems
  
-  client_nets:
+  simp_options::trusted_nets:
    - '1.2.3.4/16'
  
   # For the IPTables redirects to the unprivileged Logstash process
  
-  use_iptables : true
+  simp_options::firewall : true
  
   # Elasticsearch Settings
   #
@@ -127,12 +127,6 @@ commercial solutions from Elastic, or you can apply the `SIMP IPSec Module`_.
  
   # Logstash Settings
  
-  # This is currently required due to a bug in the Elastic provided 'logstash'
-  # module
- 
-  logstash::logstash_user : 'logstash'
-  logstash::logstash_group : 'logstash'
- 
   # If you want Unencrypted UDP and TCP logs (requires SIMP IPTables)
  
   simp_logstash::input::syslog::listen_plain_tcp : true
@@ -142,6 +136,15 @@ commercial solutions from Elastic, or you can apply the `SIMP IPSec Module`_.
  
   simp_logstash::outputs :
     - 'elasticsearch'
+
+
+In addition, for EL6 systems, ensure the correct version of JAVA is
+installed as follows:
+
+.. code:: yaml
+
+  java::package : 'java-1.8.0-openjdk-devel'
+
 
 Directing Logstash to an External Elasticsearch System
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -159,12 +162,12 @@ follows.
   ---
   # The networks that you want to allow to connect to your systems
  
-  client_nets:
+  simp_options::trusted_nets:
    - '1.2.3.4/16'
  
   # For the IPTables redirects to the unprivileged Logstash process
  
-  use_iptables : true
+  simp_options::firewall : true
  
   # Logstash Settings
  
@@ -190,6 +193,11 @@ follows.
   simp_logstash::outputs :
     - 'elasticsearch'
 
+Be sure to specify the correct version of JAVA for EL6 systems as follows:
+
+.. code:: yaml
+
+  java::package : 'java-1.8.0-openjdk-devel'
 
 Setting up the Elasticsearch System
 """""""""""""""""""""""""""""""""""

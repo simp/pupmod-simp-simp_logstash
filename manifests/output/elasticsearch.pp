@@ -4,98 +4,157 @@
 # they remain separate in the event that variables need to be added in the
 # future for ERB processing.
 #
-# @param action [String] The Elasticsearch action to perform.
+# @param absolute_healthcheck_path When a healthcheck_path config is provided,
+#   this additional flag can be used to specify whether the healthcheck_path
+#   is appended to the existing path (default) or is treated as the absolute
+#   URL path.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param action The Elasticsearch action to perform.
 #   Allowed Values: index, delete, create, update
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param codec [String] The codec used for output data.
+# @param codec The codec used for output data.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param doc_as_upsert [Boolean] Create a new document with source if
+# @param doc_as_upsert Create a new document with source if
 #   `document_id` doesn't exist in Elasticsearch.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param document_id [String] The document ID for the index.
+# @param document_id The document ID for the index.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param document_type [String] The document type to write events to.
+# @param document_type The document type to write events to.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @parm flush_size [Integer] Maximum sized bulk request.
+# @param enable_metric Whether to enable metric logging for this plugin
+#   instance.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param host [Net Address] The host of the remote instance.
+# @param failure_type_logging_whitelist Elasticsearch errors you don't want
+#   to log.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param flush_size Maximum sized bulk request.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param healthcheck_path When a backend is marked down a HEAD request will be
+#   sent to this path in the background to see if it has come back again
+#   before it is once again eligible to service requests.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param host The host of the remote instance.
 #   @note It is highly recommended that you couple an Elasticsearch ingest node
 #   with the LogStash server itself.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param port [Port] The port on the remote instance to which to connect.
+# @param port The port on the remote instance to which to connect.
 #
-# @param idle_flush_time [Integer] The amount of time since last flush before a
+# @param id Unique ID for this output plugin configuration.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param idle_flush_time The amount of time since last flush before a
 #   flush is forced.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param index [String] The index to write events to.
+# @param index The index to write events to.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param manage_template [Boolean] If set, apply a default mapping template
+# @param manage_template If set, apply a default mapping template
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param parent [String] The ID of the associated parent document.
+# @param parameters Pass a set of key value pairs as the URL query string.
+#   This query string is added to the host listed in the host configuration.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param path [Absolute Path] HTTP path at which the Elasticsearch server lives.
+# @param parent The ID of the associated parent document.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param retry_max_interval [Integer] Set max interval between bulk retries.
+# @param path HTTP path at which the Elasticsearch server lives.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param routing [String] A routing override to be applieid to all events.
+# @param pipeline Which ingest pipeline you wish to execute for an event.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param script [String] Set script name for scripted update module.
+# @param pool_max Maximum number of open connections the output will create.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param script_lang [String] Set the language of the used script.
+# @param pool_max_per_route Maximum number of open connections per endpoint
+#   the output will create.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param script_type [String] Define the type of script referenced by `$script`.
+# @param resurrect_delay How frequently, in seconds, to wait between
+#   resurrection attempts.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param retry_initial_interval Initial interval in seconds between bulk
+#   retries.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param retry_max_interval Set max interval between bulk retries.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param retry_on_conflict Number of times Elasticsearch should internally
+#   retry an update/upserted document.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param routing A routing override to be applieid to all events.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param script Set script name for scripted update module.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param script_lang Set the language of the used script.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param script_type Define the type of script referenced by `$script`.
 #   Allowed Values: 'inline', 'indexed', 'file'
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param script_var_name [String] Variable name passed to script.
+# @param script_var_name Variable name passed to script.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param scripted_upsert [Boolean] If set, `$script` is in charge of creating
+# @param scripted_upsert If set, `$script` is in charge of creating
 #   non-existent document
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param template [Absolute Path] The path to your own template.
+# @param template The path to your own template.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param template_name [String] The name of the template in Elasticsearch.
+# @param template_name The name of the template in Elasticsearch.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param template_overwrite [Boolean] If set, overwrite the indicated template
+# @param template_overwrite If set, overwrite the indicated template
 #   in ES with either the one dicated by `template` or the included one.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param timeout [Integer] Timeout for network operations.
+# @param timeout Timeout for network operations.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param upsert [String] Upsert content for update mode.
+# @param upsert Upsert content for update mode.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param workers [Integer] Number of workers to use for this output.
+# @param validate_after_inactivity How long to wait before checking if
+#   the connection is stale before executing a request on a connection
+#   using keepalive.
 #   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 #
-# @param order [Integer] The relative order within the configuration group. If
+# @param version Version to use for indexing.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param version_type version_type to use for indexing.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param workers Number of workers to use for this output.
+#   @see https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+#
+# @param order The relative order within the configuration group. If
 #   omitted, the entries will fall in alphabetical order.
 #
-# @param content [String] The content that you wish to have in your filter. If
+# @param content The content that you wish to have in your filter. If
 #   set, this will override *all* template contents.
 #
-# @param stunnel_port [Port] The port on the local host to which to connect to
+# @param stunnel_port The port on the local host to which to connect to
 #   use the stunnel connection to the remote ES system. This is not required if
 #   you are connecting to an ES server on the local system.
 #
@@ -116,7 +175,7 @@
 #       * level 4 - Ignore CA chain and only verify peer certificate.                                    
 #       * default - No verify
 #
-# @param stunnel_elasticsearch [Boolean] If set, use a stunnel connection to
+# @param stunnel_elasticsearch If set, use a stunnel connection to
 #   connect to ES. This is necessary if you are using ES behind an HTTPS proxy.
 #   If you're using ES on the same host, and using the `::simp_elasticsearch`
 #   class (the default), then the system will auto-adjust to ignore this
@@ -124,26 +183,37 @@
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
 class simp_logstash::output::elasticsearch (
-  Optional[Array[Enum['index','delete','create']]]  $action                = undef,
+  Optional[Boolean]                                 $absolute_healthcheck_path = undef,
+  Optional[Enum['index','delete','create']]         $action                = undef,
   Optional[String]                                  $codec                 = undef,
   Optional[Boolean]                                 $doc_as_upsert         = undef,
   Optional[String]                                  $document_id           = undef,
   Optional[String]                                  $document_type         = undef,
+  Optional[Boolean]                                 $enable_metric         = undef,
+  Optional[Array[String]]                           $failure_type_logging_whitelist = undef,
   Optional[Integer[0]]                              $flush_size            = undef,
+  Optional[Stdlib::Absolutepath]                    $healthcheck_path      = undef,
   Simplib::Host                                     $host                  = 'localhost',
+  Optional[String]                                  $id                    = 'simp_elasticsearch',
   Simplib::Port                                     $port                  = 9199,
   Optional[Integer[0]]                              $idle_flush_time       = undef,
   Optional[String]                                  $index                 = undef,
   Optional[Boolean]                                 $manage_template       = undef,
+  Optional[Hash]                                    $parameters            = undef,
   Optional[String]                                  $parent                = undef,
   Optional[Stdlib::Absolutepath]                    $path                  = undef,
+  Optional[String]                                  $pipeline              = undef,
+  Optional[Integer[1]]                              $pool_max              = undef,
+  Optional[Integer[1]]                              $pool_max_per_route    = undef,
+  Optional[Integer[0]]                              $resurrect_delay       = undef,
+  Optional[Integer[0]]                              $retry_initial_interval = undef,
   Optional[Integer[0]]                              $retry_max_interval    = undef,
+  Optional[Integer[0]]                              $retry_on_conflict     = undef,
   Optional[String]                                  $routing               = undef,
   Optional[String]                                  $script                = undef,
   Optional[String]                                  $script_lang           = undef,
-  Optional[Array[Enum['inline','idexed','file']]]   $script_type           = undef,
+  Optional[Array[Enum['inline','indexed','file']]]  $script_type           = undef,
   Optional[String]                                  $script_var_name       = undef,
   Optional[Boolean]                                 $scripted_upsert       = undef,
   Optional[Stdlib::Absolutepath]                    $template              = undef,
@@ -151,6 +221,10 @@ class simp_logstash::output::elasticsearch (
   Optional[Boolean]                                 $template_overwrite    = undef,
   Optional[Integer[0]]                              $timeout               = undef,
   Optional[String]                                  $upsert                = undef,
+  Optional[Integer[0]]                              $validate_after_inactivity = undef,
+  Optional[String]                                  $version               = undef,
+  Optional[Enum['internal','external',
+    'external_gt', 'external_gte', 'force']]        $version_type          = undef,
   Optional[Integer[0]]                              $workers               = undef,
   Integer[0]                                        $order                 = 50,
   Optional[String]                                  $content               = undef,
@@ -162,14 +236,14 @@ class simp_logstash::output::elasticsearch (
   $_is_local = host_is_me($host)
 
   if $stunnel_elasticsearch {
-    include '::stunnel'
-
     $_host = '127.0.0.1'
 
     if $_is_local {
       $_port = $port
     }
     else {
+      include '::stunnel'
+
       stunnel::connection { 'logstash_elasticsearch':
         client  => true,
         connect => ["${host}:${stunnel_port}"],

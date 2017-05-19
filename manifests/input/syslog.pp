@@ -14,72 +14,77 @@
 # @note This class is incompatible with the SIMP rsyslog::stock::server class!
 #
 # See simp_logstash::clean if you want to automatically prune your logs to
-# conserve ElasticSearch storage space.
+# conserve Elasticsearch storage space.
 #
-# @param add_field [Hash] Add a field to an event.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
+# @param add_field Add a field to an event.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param codec [String] The codec used for input data.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
+# @param codec The codec used for input data.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param host [IP] The address upon which to listen.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
+# @param enable_metric Whether to enable metric logging for this plugin instance.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param lstash_tags [Array] Arbitrary tags for your events.
-#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-syslog.html
+# @param host The address upon which to listen.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param order [Integer] The relative order within the configuration group. If
+# @param id Unique ID for this input plugin configuration.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param lstash_tags Arbitrary tags for your events.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param lstash_type Type field to be added to all syslog events.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param order The relative order within the configuration group. If
 #   omitted, the entries will fall in alphabetical order.
 #
-# @param content [String] The content that you wish to have in your filter. If
+# @param content The content that you wish to have in your filter. If
 #   set, this will override *all* template contents.
 #
-# @param trusted_nets [Array(Net List)] An array of networks that you trust
-#   to connect to your server.
-#
-# @param listen_plain_tcp [Boolean] If set, listen on the default unencrypted
+# @param listen_plain_tcp If set, listen on the default unencrypted
 #   TCP syslog port. Default is true.
 #
-# @param listen_plain_udp [Boolean] If set, listen on the default unencrypted
+# @param listen_plain_udp If set, listen on the default unencrypted
 #   UDP syslog port. Default is false.
 #
-# @param tcp_port [Port] The port upon which to listen for TCP syslog
+# @param tcp_port The port upon which to listen for TCP syslog
 #   connections.
 #
-# @param udp_port [Port] The port upon which to listen for UDP syslog
+# @param udp_port The port upon which to listen for UDP syslog
 #   connections.
 #
-# @param daemon_port [Port] The port that logstash itself should listen on.
+# @param daemon_port  The port that logstash itself should listen on.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
 #
-# @param manage_sysctl [Boolean] If set, this class will manage the following
-#   sysctl variables.
+# @param proxy_protocol Whether to support proxy protocol, v1.
+#  @see https://www.elastic.co/guide/en/logstash/current/plugins-inputs-tcp.html
+#
+# @param manage_sysctl If set, this class will manage the following
+#   sysctl variables when the firewall is enabled.
 #   * net.ipv4.conf.all.route_localhost
-#
-# @param firewall [Boolean] If set, use IPTables rules to forward remote
-#   connections to the logstash syslog listener. This prevents logstash itself
-#   from needing to run as the 'root' user.
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 # @author Ralph Wright <rwright@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
-#
 class simp_logstash::input::syslog (
   Optional[Hash]          $add_field        = undef,
   Optional[String]        $codec            = undef,
+  Optional[Boolean]       $enable_metric    = undef,
   Optional[Simplib::IP]   $host             = '127.0.0.1',
+  Optional[String]        $id               = 'simp_syslog',
   Optional[Array[String]] $lstash_tags      = undef,
   String                  $lstash_type      = 'simp_syslog',
   Integer[0]              $order            = 50,
   Optional[String]        $content          = undef,
-  Simplib::Netlist        $trusted_nets     = simplib::lookup('simp_options::trusted_nets', {'default_value' => ['127.0.0.1/32'] }),
   Boolean                 $listen_plain_tcp = true,
   Boolean                 $listen_plain_udp = false,
   Simplib::Port           $tcp_port         = 514,
   Simplib::Port           $udp_port         = 514,
   Simplib::Port           $daemon_port      = 51400,
-  Boolean                 $manage_sysctl    = true,
-  Boolean                 $firewall         = simplib::lookup('simp_options::firewall', { 'default_value'    =>  true})
+  Optional[Boolean]       $proxy_protocol   = undef,
+  Boolean                 $manage_sysctl    = true
 ) {
 
   ### Common material to all inputs
@@ -108,7 +113,7 @@ class simp_logstash::input::syslog (
 
   include 'simp_logstash::filter::simp_syslog'
 
-  if $firewall {
+  if $::simp_logstash::firewall {
     include '::iptables'
 
     if $listen_plain_tcp or $listen_plain_udp {
@@ -147,7 +152,7 @@ class simp_logstash::input::syslog (
 
     if $listen_plain_tcp {
       iptables::listen::tcp_stateful { 'logstash_syslog_tcp':
-        trusted_nets => $trusted_nets,
+        trusted_nets => $simp_logstash::trusted_nets,
         dports       => $tcp_port
       }
       iptables_rule { 'logstash_syslog_tcp_allow':
@@ -156,7 +161,7 @@ class simp_logstash::input::syslog (
     }
     if $listen_plain_udp {
       iptables::listen::udp { 'logstash_syslog_udp':
-        trusted_nets => $trusted_nets,
+        trusted_nets => $simp_logstash::trusted_nets,
         dports       => $udp_port
       }
       iptables_rule { 'logstash_syslog_udp_allow':

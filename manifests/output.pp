@@ -8,7 +8,6 @@
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
 define simp_logstash::output {
   include "::simp_logstash::output::${name}"
 }

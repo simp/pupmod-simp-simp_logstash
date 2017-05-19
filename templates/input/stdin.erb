@@ -1,0 +1,29 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
+input {
+  stdin {
+<% unless @add_field.nil? || @add_field.empty? -%>
+    add_field => {
+      <%=
+      @add_field.keys.map do |k|
+        k = %("#{k}" => "#{@add_field[k]}")
+      end.join("\n      ") %>
+    }
+
+<% end -%>
+<% unless @codec.nil? -%>
+    codec => "<%= @codec %>"
+<% end -%>
+<% unless @enable_metric.nil? -%>
+    enable_metric => <%= @enable_metric %>
+<% end -%>
+    id => "<%= @id %>"
+<% unless @lstash_type.nil? -%>
+    type => "<%= @lstash_type %>"
+<% end -%>
+<% unless @lstash_tags.nil? || @lstash_tags.empty? -%>
+    tags => [ "<%= @lstash_tags.join('", "') %>" ]
+<% end -%>
+  }
+}

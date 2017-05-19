@@ -8,7 +8,6 @@
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
 define simp_logstash::filter {
   include "::simp_logstash::filter::${name}"
 }

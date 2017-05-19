@@ -1,38 +1,47 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
 input {
 <% if @listen_plain_tcp -%>
   tcp {
-<% unless @add_field.nil? -%>
+<% unless @add_field.nil? || @add_field.empty? -%>
     add_field => {
-    <%=
+      <%=
       @add_field.keys.map do |k|
         k = %("#{k}" => "#{@add_field[k]}")
-      end.join("\n      ")
-    %>
+      end.join("\n      ") %>
     }
+
 <% end -%>
 <% unless @codec.nil? -%>
     codec => "<%= @codec %>"
 <% end -%>
     host => "<%= @host %>"
     port => <%= @daemon_port %>
+<% unless @proxy_protocol.nil? -%>
+    proxy_protocol => <%= @proxy_protocol %>
+<% end -%>
+    id => "<%= @id %>-tcp"
 <% unless @lstash_type.nil? -%>
     type => "<%= @lstash_type %>"
 <% end -%>
-<% unless @lstash_tags.nil? -%>
+<% unless @lstash_tags.nil? || @lstash_tags.empty? -%>
     tags => [ "<%= @lstash_tags.join('", "') %>" ]
+<% end -%>
+<% unless @enable_metric.nil? -%>
+    enable_metric => <%= @enable_metric %>
 <% end -%>
   }
 <% end -%>
 
 <% if @listen_plain_udp -%>
   udp {
-<% unless @add_field.nil? -%>
+<% unless @add_field.nil? || @add_field.empty? -%>
     add_field => {
-    <%=
+      <%=
       @add_field.keys.map do |k|
         k = %("#{k}" => "#{@add_field[k]}")
-      end.join("\n      ")
-    %>
+      end.join("\n      ") %>
     }
 <% end -%>
 <% unless @codec.nil? -%>
@@ -40,11 +49,18 @@ input {
 <% end -%>
     host => "<%= @host %>"
     port => <%= @daemon_port %>
+<% unless @proxy_protocol.nil? -%>
+    proxy_protocol => <%= @proxy_protocol %>
+<% end -%>
+    id => "<%= @id %>-udp"
 <% unless @lstash_type.nil? -%>
     type => "<%= @lstash_type %>"
 <% end -%>
-<% unless @lstash_tags.nil? -%>
+<% unless @lstash_tags.nil? || @lstash_tags.empty? -%>
     tags => [ "<%= @lstash_tags.join('", "') %>" ]
+<% end -%>
+<% unless @enable_metric.nil? -%>
+    enable_metric => <%= @enable_metric %>
 <% end -%>
   }
 <% end -%>

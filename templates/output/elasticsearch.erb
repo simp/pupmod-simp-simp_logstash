@@ -1,5 +1,11 @@
+# This file managed by Puppet
+# Any changes will be overwritten
+
 output {
   elasticsearch {
+<% unless @absolute_healthcheck_path.nil? -%>
+    absolute_healthcheck_path => <%= @absolute_healthcheck_path %>
+<% end -%>
 <% unless @action.nil? -%>
     action => "<%= @action %>"
 <% end -%>
@@ -15,10 +21,20 @@ output {
 <% unless @document_type.nil? -%>
     document_type => "<%= @document_type %>"
 <% end -%>
+<% unless @enable_metric.nil? -%>
+    enable_metric => <%= @enable_metric %>
+<% end -%>
+<% unless @failure_type_logging_whitelist.nil? || @failure_type_logging_whitelist.empty?-%>
+    failure_type_logging_whitelist => [ "<%= @failure_type_logging_whitelist.join('", "') %>" ]
+<% end -%>
 <% unless @flush_size.nil? -%>
     flush_size => <%= @flush_size %>
 <% end -%>
+<% unless @healthcheck_path.nil? -%>
+    healthcheck_path => "<%= @healthcheck_path %>"
+<% end -%>
     hosts => [ "<%= @_host %>:<%= @_port %>" ]
+    id => "<%= @id %>"
 <% unless @idle_flush_time.nil? -%>
     idle_flush_time => <%= @idle_flush_time %>
 <% end -%>
@@ -28,14 +44,40 @@ output {
 <% unless @manage_template.nil? -%>
     manage_template => <%= @manage_template %>
 <% end -%>
+<% unless @parameters.nil? || @parameters.empty? -%>
+    parameters => {
+      <%=
+      @parameters.keys.map do |k|
+        k = %("#{k}" => "#{@parameters[k]}")
+      end.join("\n      ") %>
+    }
+<% end -%>
 <% unless @parent.nil? -%>
     parent => "<%= @parent %>"
 <% end -%>
 <% unless @path.nil? -%>
     path => "<%= @path %>"
 <% end -%>
+<% unless @pipeline.nil? -%>
+    pipeline => "<%= @pipeline %>"
+<% end -%>
+<% unless @pool_max.nil? -%>
+    pool_max => <%= @pool_max %>
+<% end -%>
+<% unless @pool_max_per_route.nil? -%>
+    pool_max_per_route => <%= @pool_max_per_route %>
+<% end -%>
+<% unless @resurrect_delay.nil? -%>
+    resurrect_delay => <%= @resurrect_delay %>
+<% end -%>
+<% unless @retry_initial_interval.nil? -%>
+    retry_initial_interval => <%= @retry_initial_interval %>
+<% end -%>
 <% unless @retry_max_interval.nil? -%>
     retry_max_interval => <%= @retry_max_interval %>
+<% end -%>
+<% unless @retry_on_conflict.nil? -%>
+    retry_on_conflict => <%= @retry_on_conflict %>
 <% end -%>
 <% unless @routing.nil? -%>
     routing => "<%= @routing %>"
@@ -46,7 +88,7 @@ output {
 <% unless @script_lang.nil? -%>
     script_lang => "<%= @script_lang %>"
 <% end -%>
-<% unless @script_type.nil? -%>
+<% unless @script_type.nil?  || @script_type.empty? -%>
     script_type => "<%= @script_type %>"
 <% end -%>
 <% unless @script_var_name.nil? -%>
@@ -69,6 +111,15 @@ output {
 <% end -%>
 <% unless @upsert.nil? -%>
     upsert => "<%= @upsert %>"
+<% end -%>
+<% unless @validate_after_inactivity.nil? -%>
+    validate_after_inactivity => <%= @validate_after_inactivity %>
+<% end -%>
+<% unless @version.nil? -%>
+    version => "<%= @version %>"
+<% end -%>
+<% unless @version_type.nil? -%>
+    version_type => "<%= @version_type %>"
 <% end -%>
 <% unless @workers.nil? -%>
     workers => <%= @workers %>
