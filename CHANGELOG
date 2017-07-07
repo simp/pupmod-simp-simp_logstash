@@ -3,6 +3,7 @@
 - Fixed type bug in simp_logstash::output::elasticsearch::action.
 - Fixed enum typo in enum for simp_logstash::output::elasticsearch::script_type
 - Fixed puppet strings problems.
+- Confine puppet version in metadata.json
 
 * Fri Dec 02 2016 Nick Markowski <nmarkowski@keywcorp.com> - 3.0.1-0
 - Removed pupmod-simp-sysctl in favor of augeas-sysctl
