@@ -84,7 +84,7 @@ describe 'rsyslog client -> 1 logstash server without TLS' do
           wait_for_log_message(server, remote_log, 'user bad_guy from')
           result = on(server, "grep 'user bad_guy from' #{remote_log}")
           log_line = result.stdout.split("\n").last
-          ip = log_line.match(/from ([0-9.]+)"/)[1]
+          ip = log_line.match(/from ([0-9.]+)[" ]/)[1]
           expect(log_line).to match(/"user":"bad_guy"/)
           expect(log_line).to match(/"src_ip":"#{ip}"/)
         end
