@@ -1,3 +1,6 @@
+* Thu Nov 09 2017 Liz Nemsick <lnemsick.simp@gmail.com> - 5.0.1-0
+- Adjust string match in acceptance test
+
 * Tue May 09 2017 Liz Nemsick <lnemsick.simp@gmail.com> - 5.0.0-0
 - Updated to LogStash 5.X and Elasticsearch 5.X
 - Fixed type bug in simp_logstash::output::elasticsearch::action.
