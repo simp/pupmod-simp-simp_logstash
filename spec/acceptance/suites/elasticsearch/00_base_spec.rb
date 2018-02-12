@@ -100,6 +100,7 @@ simp_logstash::outputs :
         # Reset the ES server to only allow this host through
         set_hieradata_on(host, hdata)
         apply_manifest_on(host, es_manifest)
+        on(host, 'rpm -q elasticsearch')
       end
 
       it 'should be idempotent' do
