@@ -1,3 +1,6 @@
+* Mon Feb 12 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 5.0.1-0
+- Update upperbound on puppetlabs/java version to < 3.0.0
+
 * Thu Nov 09 2017 Liz Nemsick <lnemsick.simp@gmail.com> - 5.0.1-0
 - Adjust string match in acceptance test
 
