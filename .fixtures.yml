@@ -30,9 +30,6 @@ fixtures:
       repo: https://github.com/simp/puppet-elasticsearch
       ref: 5.5.0
     simp_elasticsearch: https://github.com/simp/pupmod-simp-simp_elasticsearch
-    file_concat:
-      repo: https://github.com/simp/puppet-lib-file_concat
-      ref: simp6.0.0-1.0.1
     haveged: https://github.com/simp/pupmod-simp-haveged
     iptables: https://github.com/simp/pupmod-simp-iptables
     java:
