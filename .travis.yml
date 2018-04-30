@@ -30,17 +30,20 @@ jobs:
 
   include:
     - stage: check
-      rvm: 2.1.9
+      rvm: 2.4.1
+      env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 5"
       script:
         - bundle exec rake check:dot_underscore
         - bundle exec rake check:test_file
         - bundle exec rake pkg:check_version
         - bundle exec rake metadata_lint
         - bundle exec rake pkg:compare_latest_tag
+        - bundle exec rake pkg:create_tag_changelog
+        - bundle exec rake lint
         - bundle exec puppet module build
 
     - stage: spec
-      rvm: 2.1.9
+      rvm: 2.4.1
       env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 5.0"
       script:
         - bundle exec rake spec
@@ -59,18 +62,12 @@ jobs:
 
     - stage: spec
       rvm: 2.1.9
-      env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 4.8.2"
-      script:
-        - bundle exec rake spec
-
-    - stage: spec
-      rvm: 2.1.9
       env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 4.7.0"
       script:
         - bundle exec rake spec
 
     - stage: deploy
-      rvm: 2.1.9
+      rvm: 2.4.1
       script:
         - true
       before_deploy:
@@ -90,5 +87,5 @@ jobs:
             secure: "FKZXbcuKXf5zF2vTxBIh9Dog2pPlC69vZOJIT4Ph1uvmHvRKs/zJf0lbRDBVi4rTCFywwGs1lHrvf+dCda4vO4ZR7m9l65UXNmhkC2FI3SbJT6EG+pBmflJqYvUlITylesI6Z5ymZ8Y7bucGTBtGDv1Sv39CKY6RXsPHsiORuIe5WdGOqsbAqCZq6hGTjl+M+v9YHLFSRUkib6H3rOQiqiU4nC3WBxvMNmgiJ/GVPXk+bPG0AP4gZTdDAN/JjXar6uB3G+NrBFeeEf4vN1IOY1PEpgag9cnhyrx9EWFkUZT+jHjR+o0U6XxROktxkAij3BykqEUn1E5nfG+7zWrW5WmcyRsAKgAg7l51ho7P9+DQKFen9PB++a6PEQ7dwNbB0wr/hUTmQdj5YKB7/+v0gxlbrWQGQJuFaRVGnBwQzYg2h4a8I2LVbpbKMZ8eZavbUuLpi5lhugFKrbjIY2XJPrZevB2Fg5gThkjPk0WElb44jPnFZD+f50Y7J6Y6EEM+BOQrckizRQr02Ex+Atn45tigE+rPDZd6U2C7AsYjqoHlgS06du6A13SSKqVpiOgF8spJAl8Q7R98EzO9QjN3j8r5LiVhUqa3RK4d84vyS2MjFlugc3jtYTcV+57WAmw5C+N75oVa48md0xYrQo5xEQ017oGmfAgKCiqqM3i0SKk="
           on:
             tags: true
-            rvm: 2.1.9
+            rvm: 2.4.1
             condition: '($SKIP_FORGE_PUBLISH != true)'
