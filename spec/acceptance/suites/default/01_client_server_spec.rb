@@ -64,6 +64,7 @@ describe 'rsyslog client -> 1 logstash server without TLS' do
           Net::SSH.start(client.host_hash[:ip], 'vagrant', client.host_hash[:ssh]) do |ssh|
             puts ssh.exec!('find')
           end
+          wait_for_log_message(server, remote_log, 'Accepted publickey for')
           result = on(server, "grep 'Accepted publickey for' #{remote_log}")
           log_line = result.stdout.split("\n").last
           match = log_line.match(/Accepted publickey for vagrant from (\S+) port (\S+) /)

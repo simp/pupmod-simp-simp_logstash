@@ -1,3 +1,10 @@
+<%
+  if ENV['BEAKER_HYPERVISOR']
+    hypervisor = ENV['BEAKER_HYPERVISOR']
+  else
+    hypervisor = 'vagrant'
+  end
+-%>
 HOSTS:
   el7-server:
     roles:
@@ -8,7 +15,7 @@ HOSTS:
       - el7
     platform:   el-7-x86_64
     box:        centos/7
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
         baseurl:  https://artifacts.elastic.co/packages/5.x/yum
@@ -26,7 +33,7 @@ HOSTS:
       - el7
     platform:   el-7-x86_64
     box:        centos/7
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
         mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
@@ -39,7 +46,7 @@ HOSTS:
       - el6
     platform:   el-6-x86_64
     box:        centos/6
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
         baseurl:  https://artifacts.elastic.co/packages/5.x/yum
@@ -57,7 +64,7 @@ HOSTS:
       - el6
     platform:   el-6-x86_64
     box:        centos/6
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
         mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
@@ -68,4 +75,6 @@ CONFIG:
   log_level: verbose
   type:      aio
   vagrant_memsize: 512
-  #vb_gui: true
+<% if ENV['BEAKER_PUPPET_ENVIRONMENT'] -%>
+  puppet_environment: <%= ENV['BEAKER_PUPPET_ENVIRONMENT'] %>
+<% end -%>

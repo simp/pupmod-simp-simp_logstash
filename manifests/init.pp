@@ -123,6 +123,10 @@ class simp_logstash (
   if $::logstash::logstash_group != 'logstash' {
     fail('The $::logstash::logstash_group must be set to "logstash" via Hiera or your ENC')
   }
+  # This is a workaround until upstream logstash gets PR merge for support
+  if ("${::operatingsystem}-${::operatingsystemmajrelease}" == 'OracleLinux-6') and ($::logstash::service_provider != 'upstart') {
+    fail('The $::logstash::service_provider setting must be set to "upstart" via Hiera or your ENC')
+  }
 
   Class['java'] -> Class['logstash']
   Class['logstash'] -> Class['simp_logstash']

@@ -84,8 +84,15 @@ simp_logstash::outputs :
   elasticsearch_servers.each do |host|
     context "ES host #{host} setup" do
       it 'should set up an ES node' do
-        # Hack to make sure eth1 is up
-        on(host, %(/sbin/ifup eth1))
+        # Hack to Force second nic up
+        interfaces = fact_on(host, 'interfaces').strip.split(',')
+        interfaces.delete_if do |x|
+          x =~ /^lo/
+        end
+
+        interfaces.each do |iface|
+          on(host, "ifup #{iface}", :accept_all_exit_codes => true)
+        end
 
         fqdn = fact_on(host, 'fqdn')
 
@@ -115,7 +122,16 @@ simp_logstash::outputs :
         let(:log_msg) { "SIMP-BASE-TEST-TCP-#{host}" }
 
         it 'manifests for logstash and ES hosts should work with no errors' do
-          on(host, %(/sbin/ifup eth1))
+          # Hack to Force second nic up
+          interfaces = fact_on(host, 'interfaces').strip.split(',')
+          interfaces.delete_if do |x|
+            x =~ /^lo/
+          end
+
+          interfaces.each do |iface|
+            on(host, "ifup #{iface}", :accept_all_exit_codes => true)
+          end
+
           # Set the ES host
           es_hostname = fact_on(es_host, 'fqdn')
           ls_hostname = fact_on(host, 'fqdn')
@@ -126,6 +142,12 @@ simp_logstash::outputs :
           if host.name == 'el6-server'
             # need newer JAVA version
             hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
+
+            # Workaround until logstash module upstream sets the provider
+            # correctly for OEL 6
+            if fact_on(host, 'operatingsystem') == 'OracleLinux'
+              hdata += "\nlogstash::service_provider: 'upstart'\n"
+            end
           end
 
           # Reset the ES server to only allow this host through (hieradata change)

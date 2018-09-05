@@ -225,7 +225,7 @@ default-puppet5:
   <<: *setup_bundler_env
   variables:
     PUPPET_VERSION: '~> 5.3'
-    PUPPET_BEAKER_COLLECTION: 'puppet5'
+    BEAKER_PUPPET_COLLECTION: 'puppet5'
   script:
     - bundle exec rake spec_clean
     - bundle exec rake beaker:suites[default]
@@ -277,7 +277,7 @@ elasticsearch-puppet5:
   <<: *setup_bundler_env
   variables:
     PUPPET_VERSION: '~> 5.3'
-    PUPPET_BEAKER_COLLECTION: 'puppet5'
+    BEAKER_PUPPET_COLLECTION: 'puppet5'
   script:
     - bundle exec rake spec_clean
     - bundle exec rake beaker:suites[elasticsearch]
