@@ -13,6 +13,10 @@ describe 'simp_logstash' do
     context "on #{os}" do
       let(:facts){ facts }
 
+      if "#{facts[:operatingsystem]}-#{facts[:operatingsystemmajrelease]}" == 'OracleLinux-6'
+        let(:hieradata) { 'oel6' }
+      end
+
       context 'with default parameters' do
         let(:params) { {} }
 

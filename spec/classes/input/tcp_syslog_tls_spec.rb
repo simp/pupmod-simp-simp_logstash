@@ -11,6 +11,9 @@ describe 'simp_logstash::input::tcp_syslog_tls' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts){ facts }
+      if "#{facts[:operatingsystem]}-#{facts[:operatingsystemmajrelease]}" == 'OracleLinux-6'
+        let(:hieradata) { 'oel6' }
+      end
 
       context 'with simp_logstash::firewall=false' do
         let(:pre_condition){<<EOM
