@@ -100,7 +100,7 @@ class simp_logstash (
   Boolean                       $config_purge             = true,
   Simplib::Netlist              $trusted_nets             = simplib::lookup('simp_options::trusted_nets', {'default_value' =>   ['127.0.0.1/32'] }),
   Stdlib::Absolutepath          $app_pki_dir              = '/etc/pki/simp_apps/logstash/x509',
-  Stdlib::Absolutepath          $app_pki_external_source  = simplib::lookup('simp_options::pki::source', { 'default_value' => '/etc/pki/simp/x509' }),
+  String                        $app_pki_external_source  = simplib::lookup('simp_options::pki::source', { 'default_value' => '/etc/pki/simp/x509' }),
   Stdlib::Absolutepath          $app_pki_key              = "${app_pki_dir}/private/${facts['fqdn']}.pem",
   Stdlib::Absolutepath          $app_pki_cert             = "${app_pki_dir}/public/${facts['fqdn']}.pub",
   Stdlib::Absolutepath          $app_pki_ca               = "${app_pki_dir}/cacerts/cacerts.pem",
