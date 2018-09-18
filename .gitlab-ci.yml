@@ -199,7 +199,7 @@ default:
   <<: *cache_bundler
   <<: *setup_bundler_env
   variables:
-    PUPPET_VERSION: '4.10'
+    PUPPET_VERSION: '~> 4.10.0'
   script:
     - bundle exec rake spec_clean
     - bundle exec rake beaker:suites[default]
@@ -238,7 +238,7 @@ default-fips:
   <<: *setup_bundler_env
   <<: *only_with_SIMP_FULL_MATRIX
   variables:
-    PUPPET_VERSION: '4.10'
+    PUPPET_VERSION: '~> 4.10.0'
     BEAKER_fips: 'yes'
   script:
     - bundle exec rake spec_clean
@@ -251,7 +251,7 @@ elasticsearch:
   <<: *cache_bundler
   <<: *setup_bundler_env
   variables:
-    PUPPET_VERSION: '4.10'
+    PUPPET_VERSION: '~> 4.10.0'
   script:
     - bundle exec rake spec_clean
     - bundle exec rake beaker:suites[elasticsearch]
@@ -290,7 +290,7 @@ elasticsearch-fips:
   <<: *setup_bundler_env
   <<: *only_with_SIMP_FULL_MATRIX
   variables:
-    PUPPET_VERSION: '4.10'
+    PUPPET_VERSION: '~> 4.10.0'
     BEAKER_fips: 'yes'
   script:
     - bundle exec rake spec_clean
