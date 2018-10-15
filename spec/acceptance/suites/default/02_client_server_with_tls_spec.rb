@@ -14,7 +14,7 @@ describe 'rsyslog client -> 1 logstash server with TLS' do
             logrotate               => true,
             enable_tls_logging      => true,
             pki                     => true,
-            app_pki_external_source => '/etc/pki/simp-testing/pki'
+            app_pki_external_source => '/etc/pki/simp-testing/pki',
           }
 
           rsyslog::rule::remote { 'send_the_logs':

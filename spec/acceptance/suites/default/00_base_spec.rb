@@ -69,7 +69,7 @@ simp_logstash::outputs :
     context "on logstash server #{host}" do
       it 'should work with no errors' do
         hdata = hieradata.dup
-        if host.name == 'el6-server'
+        if host.name == 'server-el6'
           # need newer JAVA version
           hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
 

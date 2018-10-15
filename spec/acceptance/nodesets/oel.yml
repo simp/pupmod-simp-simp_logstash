@@ -6,7 +6,7 @@
   end
 -%>
 HOSTS:
-  el7-server:
+  server-el7:
     roles:
       - server
       - default
@@ -14,7 +14,7 @@ HOSTS:
       - logstash_server
       - el7
     platform:   el-7-x86_64
-    box:        elastic/oel-7-x86_64
+    box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
@@ -26,13 +26,13 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
 
-  el7-client:
+  client-el7:
     roles:
       - client
       - agent
       - el7
     platform:   el-7-x86_64
-    box:        elastic/oel-7-x86_64
+    box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
@@ -40,12 +40,12 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
 
-  el6-server:
+  server-el6:
     roles:
       - logstash_server
       - el6
     platform:   el-6-x86_64
-    box:        elastic/oel-6-x86_64
+    box:        onyxpoint/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
@@ -57,13 +57,13 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/0608B895.txt
 
-  el6-client:
+  client-el6:
     roles:
       - client
       - agent
       - el6
     platform:   el-6-x86_64
-    box:        elastic/oel-6-x86_64
+    box:        onyxpoint/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
@@ -75,6 +75,3 @@ CONFIG:
   log_level: verbose
   type:      aio
   vagrant_memsize: 512
-<% if ENV['BEAKER_PUPPET_ENVIRONMENT'] -%>
-  puppet_environment: <%= ENV['BEAKER_PUPPET_ENVIRONMENT'] %>
-<% end -%>

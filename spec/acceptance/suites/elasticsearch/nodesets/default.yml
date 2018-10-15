@@ -6,7 +6,7 @@
   end
 -%>
 HOSTS:
-  el7-server:
+  server-el7:
     roles:
       - server
       - default
@@ -26,7 +26,7 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
 
-  el7-es:
+  es-el7:
     roles:
       - elasticsearch_server
       - agent
@@ -44,7 +44,7 @@ HOSTS:
         gpgkeys:
           - https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
-  el6-server:
+  server-el6:
     roles:
       - logstash_server
       - el6
@@ -61,7 +61,7 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/0608B895.txt
 
-  el6-es:
+  es-el6:
     roles:
       - elasticsearch_server
       - agent
@@ -83,6 +83,3 @@ CONFIG:
   log_level: verbose
   type:      aio
   vagrant_memsize: 1024
-<% if ENV['BEAKER_PUPPET_ENVIRONMENT'] -%>
-  puppet_environment: <%= ENV['BEAKER_PUPPET_ENVIRONMENT'] %>
-<% end -%>

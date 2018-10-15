@@ -99,7 +99,7 @@ simp_logstash::outputs :
         hdata = hieradata.dup
         hdata.gsub!(/#ES_HOST#/m, fqdn)
         hdata.gsub!(/#ES_CLIENT#/m, fqdn)
-        if host.name == 'el6-es'
+        if host.name == 'es-el6'
           # need newer JAVA version
           hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
         end
@@ -139,7 +139,7 @@ simp_logstash::outputs :
           hdata = hieradata.dup
           hdata.gsub!(/#ES_HOST#/m, es_hostname)
           hdata.gsub!(/#ES_CLIENT#/m, ls_hostname)
-          if host.name == 'el6-server'
+          if host.name == 'server-el6'
             # need newer JAVA version
             hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
 
