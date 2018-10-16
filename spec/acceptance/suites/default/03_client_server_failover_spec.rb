@@ -26,7 +26,7 @@ describe 'rsyslog client -> 2 logstash servers without TLS with failover' do
   # 'puppet resource service' has to be told the service provider
   # is upstart.
   let(:primary_server_service_provider) {
-    if primary_server.name == 'el6-server'
+    if primary_server.name == 'server-el6'
       provider = 'provider=upstart'
     else
       provider = ''
@@ -35,7 +35,7 @@ describe 'rsyslog client -> 2 logstash servers without TLS with failover' do
   }
 
   let(:failover_server_service_provider) {
-    if failover_server.name == 'el6-server'
+    if failover_server.name == 'server-el6'
       provider = 'provider=upstart'
     else
       provider = ''

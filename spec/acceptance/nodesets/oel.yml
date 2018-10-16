@@ -14,7 +14,7 @@ HOSTS:
       - logstash_server
       - el7
     platform:   el-7-x86_64
-    box:        centos/7
+    box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
@@ -26,30 +26,26 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
 
-  es-el7:
+  client-el7:
     roles:
-      - elasticsearch_server
+      - client
       - agent
       - el7
     platform:   el-7-x86_64
-    box:        centos/7
+    box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
         mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
-      elasticsearch:
-        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
-        gpgkeys:
-          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
   server-el6:
     roles:
       - logstash_server
       - el6
     platform:   el-6-x86_64
-    box:        centos/6
+    box:        onyxpoint/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
@@ -61,25 +57,21 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/0608B895.txt
 
-  es-el6:
+  client-el6:
     roles:
-      - elasticsearch_server
+      - client
       - agent
       - el6
     platform:   el-6-x86_64
-    box:        centos/6
+    box:        onyxpoint/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
         mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
         gpgkeys:
           - https://getfedora.org/static/0608B895.txt
-      elasticsearch:
-        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
-        gpgkeys:
-          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
 CONFIG:
   log_level: verbose
   type:      aio
-  vagrant_memsize: 1024
+  vagrant_memsize: 512

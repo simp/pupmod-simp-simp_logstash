@@ -54,17 +54,30 @@ simp_logstash::outputs :
   }
 
   logstash_servers.each do |host|
-    #Hack to Force eth1 up
+    #Hack to Force second nic up
+    interfaces = fact_on(host, 'interfaces').strip.split(',')
+    interfaces.delete_if do |x|
+      x =~ /^lo/
+    end
+
     context 'on the el7_hosts' do
-      on(host, %(/sbin/ifup eth1))
+      interfaces.each do |iface|
+        on(host, "ifup #{iface}", :accept_all_exit_codes => true)
+      end
     end
 
     context "on logstash server #{host}" do
       it 'should work with no errors' do
         hdata = hieradata.dup
-        if host.name == 'el6-server'
+        if host.name == 'server-el6'
           # need newer JAVA version
-           hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
+          hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
+
+          # Workaround until logstash module upstream sets the provider
+          # correctly for OEL 6
+          if fact_on(host, 'operatingsystem') == 'OracleLinux'
+            hdata += "\nlogstash::service_provider: 'upstart'\n"
+          end
         end
         set_hieradata_on(host, hdata)
         apply_manifest_on(host, manifest, :catch_failures => true)

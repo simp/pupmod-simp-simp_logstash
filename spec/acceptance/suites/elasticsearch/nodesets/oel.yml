@@ -14,7 +14,7 @@ HOSTS:
       - logstash_server
       - el7
     platform:   el-7-x86_64
-    box:        centos/7
+    box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
@@ -32,7 +32,7 @@ HOSTS:
       - agent
       - el7
     platform:   el-7-x86_64
-    box:        centos/7
+    box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
@@ -49,7 +49,7 @@ HOSTS:
       - logstash_server
       - el6
     platform:   el-6-x86_64
-    box:        centos/6
+    box:        onyxpoint/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
@@ -67,7 +67,7 @@ HOSTS:
       - agent
       - el6
     platform:   el-6-x86_64
-    box:        centos/6
+    box:        onyxpoint/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       epel:

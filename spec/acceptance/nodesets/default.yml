@@ -1,5 +1,12 @@
+<%
+  if ENV['BEAKER_HYPERVISOR']
+    hypervisor = ENV['BEAKER_HYPERVISOR']
+  else
+    hypervisor = 'vagrant'
+  end
+-%>
 HOSTS:
-  el7-server:
+  server-el7:
     roles:
       - server
       - default
@@ -8,7 +15,7 @@ HOSTS:
       - el7
     platform:   el-7-x86_64
     box:        centos/7
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
         baseurl:  https://artifacts.elastic.co/packages/5.x/yum
@@ -19,27 +26,27 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
 
-  el7-client:
+  client-el7:
     roles:
       - client
       - agent
       - el7
     platform:   el-7-x86_64
     box:        centos/7
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
         mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
         gpgkeys:
           - https://getfedora.org/static/352C64E5.txt
 
-  el6-server:
+  server-el6:
     roles:
       - logstash_server
       - el6
     platform:   el-6-x86_64
     box:        centos/6
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       logstash:
         baseurl:  https://artifacts.elastic.co/packages/5.x/yum
@@ -50,14 +57,14 @@ HOSTS:
         gpgkeys:
           - https://getfedora.org/static/0608B895.txt
 
-  el6-client:
+  client-el6:
     roles:
       - client
       - agent
       - el6
     platform:   el-6-x86_64
     box:        centos/6
-    hypervisor: vagrant
+    hypervisor: <%= hypervisor %>
     yum_repos:
       epel:
         mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
@@ -68,4 +75,3 @@ CONFIG:
   log_level: verbose
   type:      aio
   vagrant_memsize: 512
-  #vb_gui: true
