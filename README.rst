@@ -1,4 +1,4 @@
-|License| |Build Status| |SIMP compatibility|
+|License| |CII Best Practices| |Puppet Forge| |Puppet Forge Downloads| |Build Status|
 
 SIMP Logstash Puppet Component Module
 =====================================
@@ -32,17 +32,14 @@ A module to integrate the `upstream logstash module <https://github.com/elastic/
 This is a SIMP component module
 -------------------------------
 
-This module is a component of the `System Integrity Management
-Platform <https://github.com/NationalSecurityAgency/SIMP>`__, a
-compliance oriented framework built on Puppet.
+This module is a component of the
+`System Integrity Management Platform <https://simp-project.com>`__, a
+a compliance-management framework built on Puppet.
 
 If you find any issues, they can be submitted to our
 `JIRA <https://simp-project.atlassian.net/>`__.
 
-Please read our `Contribution
-Guide <https://simp-project.atlassian.net/wiki/display/SD/Contributing+to+SIMP>`__
-and visit our `developer
-wiki <https://simp-project.atlassian.net/wiki/display/SD/SIMP+Development+Home>`__.
+Please read our `Contribution Guide <http://simp-doc.readthedocs.io/en/stable/contributors_guide/index.html>`__.
 
 As a component module, this module is not recommended for use outside of a SIMP
 environment but may work with some minor modification.
@@ -242,7 +239,7 @@ This module has only been tested on Red Hat Enterprise Linux 6 and 7 and CentOS
 Development
 -----------
 
-Please see the `SIMP Contribution Guidelines <https://simp-project.atlassian.net/wiki/display/SD/Contributing+to+SIMP>`__.
+Please read our `Contribution Guide <http://simp-doc.readthedocs.io/en/stable/contributors_guide/index.html>`__.
 
 Acceptance tests
 ^^^^^^^^^^^^^^^^
@@ -277,9 +274,13 @@ Some environment variables may be useful:
    tests to run on isolated networks.
 
 .. _SIMP IPSec Module: https://github.com/simp/pupmod-simp-libreswan
-.. |License| image:: http://img.shields.io/:license-apache-blue.svg
-   :target: http://www.apache.org/licenses/LICENSE-2.0.html
+.. |License| image:: http://img.shields.io/license-apache-blue.svg
+      :target: http://www.apache.org/licenses/LICENSE-2.0.html
+.. |CII Best Practices| image:: https://bestpractices.coreinfrastructure.org/projects/73/badge
+      :target: https://bestpractices.coreinfrastructure.org/projects/73
+.. |Puppet Forge| image:: https://img.shields.io/puppetforge/v/simp/simp_logstash.svg
+      :target: https://forge.puppetlabs.com/simp/simp_logstash
+.. |Puppet Forge Downloads| image:: https://img.shields.io/puppetforge/dt/simp/simp_logstash.svg
+      :target: https://forge.puppetlabs.com/simp/simp_logstash
 .. |Build Status| image:: https://travis-ci.org/simp/pupmod-simp-simp_logstash.svg
-   :target: https://travis-ci.org/simp/pupmod-simp-simp_logstash
-.. |SIMP compatibility| image:: https://img.shields.io/badge/SIMP%20compatibility-4.2.*%2F5.1.*-orange.svg
-   :target: https://img.shields.io/badge/SIMP%20compatibility-4.2.*%2F5.1.*-orange.svg
+      :target: https://travis-ci.org/simp/pupmod-simp-simp_logstash

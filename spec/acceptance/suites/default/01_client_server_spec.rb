@@ -27,6 +27,9 @@ describe 'rsyslog client -> 1 logstash server without TLS' do
       context "client #{client}-> server #{server} without TLS" do
         it 'should configure client without errors' do
           apply_manifest_on(client, client_manifest, :catch_failures => true)
+
+          # rsyslog is not idempotent on el6
+          apply_manifest_on(client, client_manifest, :catch_failures => true)
         end
 
         it 'should configure client idempotently' do
