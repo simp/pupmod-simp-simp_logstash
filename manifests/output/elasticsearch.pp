@@ -233,7 +233,7 @@ class simp_logstash::output::elasticsearch (
   Boolean                                           $stunnel_elasticsearch = true
 ) {
 
-  $_is_local = host_is_me($host)
+  $_is_local = simplib::host_is_me($host)
 
   if $stunnel_elasticsearch {
     $_host = '127.0.0.1'
