@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_logstash",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "author": "SIMP Team",
   "summary": "SIMP module for integrating elastic/puppet-logstash",
   "license": "Apache-2.0",
@@ -14,15 +14,15 @@
   "dependencies": [
     {
       "name": "elastic/logstash",
-      "version_requirement": ">= 5.2.1 < 6.0.0"
+      "version_requirement": ">= 5.2.1 < 7.0.0"
     },
     {
       "name": "puppetlabs/java",
-      "version_requirement": ">= 1.2.0 < 3.0.0"
+      "version_requirement": ">= 1.2.0 < 6.0.0"
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.1 < 6.0.0"
+      "version_requirement": ">= 4.13.1 < 7.0.0"
     },
     {
       "name": "simp/iptables",
@@ -71,7 +71,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.7.0 < 6.0.0"
+      "version_requirement": ">= 4.7.0 < 7.0.0"
     }
   ]
 }
