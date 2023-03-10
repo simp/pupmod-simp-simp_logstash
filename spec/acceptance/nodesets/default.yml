@@ -1,77 +1,72 @@
-<%
-  if ENV['BEAKER_HYPERVISOR']
-    hypervisor = ENV['BEAKER_HYPERVISOR']
-  else
-    hypervisor = 'vagrant'
-  end
--%>
+---
 HOSTS:
   server-el7:
     roles:
-      - server
-      - default
-      - master
-      - logstash_server
-      - el7
-    platform:   el-7-x86_64
-    box:        centos/7
-    hypervisor: <%= hypervisor %>
+    - server
+    - default
+    - master
+    - logstash_server
+    - el7
+    platform: el-7-x86_64
+    box: centos/7
+    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
     yum_repos:
       logstash:
-        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        baseurl: https://artifacts.elastic.co/packages/5.x/yum
         gpgkeys:
-          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        - https://artifacts.elastic.co/GPG-KEY-elasticsearch
       epel:
-        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
+        mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
         gpgkeys:
-          - https://getfedora.org/static/352C64E5.txt
-
+        - https://getfedora.org/static/352C64E5.txt
+    family: centos-cloud/centos-7
+    gce_machine_type: n1-standard-2
   client-el7:
     roles:
-      - client
-      - agent
-      - el7
-    platform:   el-7-x86_64
-    box:        centos/7
-    hypervisor: <%= hypervisor %>
+    - client
+    - agent
+    - el7
+    platform: el-7-x86_64
+    box: centos/7
+    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
     yum_repos:
       epel:
-        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
+        mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
         gpgkeys:
-          - https://getfedora.org/static/352C64E5.txt
-
+        - https://getfedora.org/static/352C64E5.txt
+    family: centos-cloud/centos-7
+    gce_machine_type: n1-standard-2
   server-el6:
     roles:
-      - logstash_server
-      - el6
-    platform:   el-6-x86_64
-    box:        centos/6
-    hypervisor: <%= hypervisor %>
+    - logstash_server
+    - el6
+    platform: el-6-x86_64
+    box: centos/6
+    hypervisor: vagrant
     yum_repos:
       logstash:
-        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        baseurl: https://artifacts.elastic.co/packages/5.x/yum
         gpgkeys:
-          - https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        - https://artifacts.elastic.co/GPG-KEY-elasticsearch
       epel:
-        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
+        mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
         gpgkeys:
-          - https://getfedora.org/static/0608B895.txt
-
+        - https://getfedora.org/static/0608B895.txt
   client-el6:
     roles:
-      - client
-      - agent
-      - el6
-    platform:   el-6-x86_64
-    box:        centos/6
-    hypervisor: <%= hypervisor %>
+    - client
+    - agent
+    - el6
+    platform: el-6-x86_64
+    box: centos/6
+    hypervisor: vagrant
     yum_repos:
       epel:
-        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
+        mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
         gpgkeys:
-          - https://getfedora.org/static/0608B895.txt
-
+        - https://getfedora.org/static/0608B895.txt
 CONFIG:
   log_level: verbose
-  type:      aio
+  type: aio
   vagrant_memsize: 512
+  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'puppet7') %>"
